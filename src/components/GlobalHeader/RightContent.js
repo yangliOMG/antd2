@@ -85,7 +85,7 @@ export default class GlobalHeaderRight extends PureComponent {
     }
     return (
       <div className={className}>
-        <HeaderSearch
+        {/* <HeaderSearch
           className={`${styles.action} ${styles.search}`}
           placeholder="站内搜索"
           dataSource={['搜索提示一', '搜索提示二', '搜索提示三']}
@@ -136,7 +136,7 @@ export default class GlobalHeaderRight extends PureComponent {
             emptyText="你已完成所有待办"
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
           />
-        </NoticeIcon>
+        </NoticeIcon> */}
         {currentUser.name ? (
           <Dropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
@@ -152,7 +152,7 @@ export default class GlobalHeaderRight extends PureComponent {
         ) : (
           <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
         )}
-        <Button
+        {/* <Button
           size="small"
           ghost={theme === 'dark'}
           style={{
@@ -163,7 +163,7 @@ export default class GlobalHeaderRight extends PureComponent {
           }}
         >
           <FormattedMessage id="navbar.lang" />
-        </Button>
+        </Button> */}
       </div>
     );
   }

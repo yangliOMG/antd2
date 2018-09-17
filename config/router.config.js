@@ -19,6 +19,18 @@ export default [
       // dashboard
       { path: '/', redirect: '/dashboard/analysis' },
       {
+        path: '/manage',
+        name: 'manage',
+        icon: 'dashboard',
+        routes: [
+          {
+            path: '/manage/xinzhong',
+            name: 'xinzhong',
+            component: './IndexManage/Xinzhong',
+          },
+        ],
+      },
+      {
         path: '/dashboard',
         name: 'dashboard',
         icon: 'dashboard',
@@ -37,6 +49,11 @@ export default [
             path: '/dashboard/workplace',
             name: 'workplace',
             component: './Dashboard/Workplace',
+          },
+          {
+            path: '/dashboard/test',
+            name: 'test',
+            component: './Dashboard/Test',
           },
         ],
       },

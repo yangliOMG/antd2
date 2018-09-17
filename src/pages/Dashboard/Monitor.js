@@ -21,7 +21,6 @@ const havePermissionAsync = new Promise(resolve => {
   setTimeout(() => resolve(), 300);
 });
 
-export default
 @Secured(havePermissionAsync)
 @connect(({ monitor, loading }) => ({
   monitor,
@@ -153,3 +152,4 @@ class Monitor extends PureComponent {
     );
   }
 }
+export default Monitor

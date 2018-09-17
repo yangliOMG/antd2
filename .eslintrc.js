@@ -12,6 +12,7 @@ module.exports = {
   rules: {
     "linebreak-style": ["off", "windows"],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    'react/destructuring-assignment': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js'] }],
     'react/jsx-wrap-multilines': 0,
     'react/prop-types': 0,
@@ -23,6 +24,8 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/anchor-is-valid': 0,
+    'no-unused-vars': 0,
+    'prefer-const': 0
   },
   settings: {
     polyfills: ['fetch', 'promises', 'url'],

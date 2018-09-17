@@ -5,7 +5,6 @@ import { connect } from 'dva';
 import AvatarList from '@/components/AvatarList';
 import stylesProjects from '../../List/Projects.less';
 
-export default
 @connect(({ list }) => ({
   list,
 }))
@@ -49,3 +48,4 @@ class Center extends PureComponent {
     );
   }
 }
+export default Center

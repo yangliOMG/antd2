@@ -6,7 +6,7 @@ import {
   Col,
   Card,
   Table,
-  Radio,
+  Radio, Avatar
 } from 'antd';
 import {
   Pie,
@@ -88,7 +88,7 @@ class Xinzhong extends Component {
         title: <FormattedMessage id="app.manage.table.img" defaultMessage="Img" />,
         dataIndex: 'img',
         key: 'img',
-        render: src => <span className='ant-avatar-lg ant-avatar'><img className src={src} alt='' /></span>  , 
+        render: src => <Avatar size="large" src={src} /> , 
       },
     ];
 
@@ -114,6 +114,7 @@ class Xinzhong extends Component {
                 pagination={{
                   style: { marginBottom: 0 },
                   pageSize: 5,
+                  size:"large"
                 }}
               />
             </Card>

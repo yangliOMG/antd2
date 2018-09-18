@@ -25,7 +25,13 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'no-unused-vars': 0,
-    'prefer-const': 0
+    'prefer-const': 0,
+    'react/self-closing-comp':0,
+    'react/jsx-indent':0,
+    'react/jsx-indent-props':0,
+    'react/jsx-closing-tag-location':0,
+    'react/no-access-state-in-setstate':0,
+    'react/jsx-closing-bracket-location':0
   },
   settings: {
     polyfills: ['fetch', 'promises', 'url'],

@@ -5,6 +5,8 @@ export default {
 
   state: {
     xzListData: [],
+    towerListData: [],
+    count:{},
     xzTypeDataSex: [],
     xzTypeDataAddr: [],
     loading: false,
@@ -30,6 +32,8 @@ export default {
     clear() {
       return {
         xzListData: [],
+        towerListData: [],
+        count:{},
         xzTypeDataSex: [],
         xzTypeDataAddr: [],
       };

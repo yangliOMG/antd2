@@ -5,6 +5,13 @@ export default {
   'menu.home': '首页',
   'menu.manage': '主页',
   'menu.manage.xinzhong': '信众管理',
+  'menu.manage.gongde': '功德管理',
+  'menu.price': '价格管理',
+  'menu.price.apply': '调价申请',
+  'menu.price.stepform': '调价申请',
+  'menu.price.stepform.info': '表单填写',
+  'menu.price.stepform.result': '完成',
+  'menu.price.check': '调价审核',
   
   'app.manage.xinzhong': '信众管理',
   'app.manage.xinzhongList': '信众管理列表',
@@ -14,6 +21,12 @@ export default {
   'app.manage.table.img': '头像',
   'app.manage.channel.sex': '性别',
   'app.manage.channel.addr': '地区',
+  'app.gongde.zongliang': '总量',
+  'app.gongde.xiangqing': '详情',
+  'app.gongde.table.index': '序号',
+  'app.gongde.table.name': '塔名',
+  'app.gongde.table.yigong': '已供灯数',
+  'app.gongde.table.total': '总灯数',
 
 
 

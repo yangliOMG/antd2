@@ -17,7 +17,7 @@ export default [
     Routes: ['src/pages/Authorized'],
     routes: [
       // dashboard
-      { path: '/', redirect: '/dashboard/analysis' },
+      { path: '/', redirect: '/manage/gongde' },
       {
         path: '/manage',
         name: 'manage',
@@ -28,6 +28,51 @@ export default [
             name: 'xinzhong',
             component: './IndexManage/Xinzhong',
           },
+          {
+            path: '/manage/gongde',
+            name: 'gongde',
+            component: './IndexManage/Gongde',
+          },
+        ],
+      },
+      {
+        path: '/price',
+        name: 'price',
+        icon: 'money-collect',
+        routes: [
+          {
+            path: '/price/apply',
+            name: 'apply',
+            component: './PriceManage/Apply',
+          },
+          {
+            path: '/price/step-form',
+            name: 'stepform',
+            component: './PriceManage/StepForm',
+            hideChildrenInMenu: true,
+            routes: [
+              {
+                path: '/price/step-form',
+                name: 'stepform',
+                redirect: '/price/step-form/info',
+              },
+              {
+                path: '/price/step-form/info',
+                name: 'info',
+                component: './PriceManage/StepForm/Step1',
+              },
+              {
+                path: '/price/step-form/result',
+                name: 'result',
+                component: './PriceManage/StepForm/Step3',
+              },
+            ],
+          },
+          // {
+          //   path: '/manage/gongde',
+          //   name: 'gongde',
+          //   component: './IndexManage/Gongde',
+          // },
         ],
       },
       {

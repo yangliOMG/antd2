@@ -9,6 +9,28 @@ for (let i = 0; i < 50; i += 1) {
     img: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
   })
 }
+
+const towerListData = []
+const count = {
+  yigong:0,
+  total:0,
+  yigongtotal:Math.floor(Math.random()*2000+1000),
+  xinzhong:Math.floor(Math.random()*1000+300),
+  gongde:12341,
+  gongdetotal:12322141,
+}
+for (let i = 0; i < 4; i += 1) {
+  let yigong = Math.floor(Math.random()*265)
+  count.yigong += yigong
+  count.total += 1920
+  towerListData.push({
+    index: i + 1,
+    name: `灵隐寺${arr2[i]}号塔` ,
+    yigong ,
+    total: 1920,
+  })
+}
+
 const xzTypeDataSex = [
   {
     x: '男',
@@ -49,6 +71,8 @@ const xzTypeDataAddr = [
 
 const data = {
   xzListData,
+  towerListData,
+  count,
   xzTypeDataSex,
   xzTypeDataAddr,
 };

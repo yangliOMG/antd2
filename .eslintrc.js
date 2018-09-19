@@ -31,7 +31,9 @@ module.exports = {
     'react/jsx-indent-props':0,
     'react/jsx-closing-tag-location':0,
     'react/no-access-state-in-setstate':0,
-    'react/jsx-closing-bracket-location':0
+    'react/jsx-closing-bracket-location':0,
+    'no-return-assign':0,
+    'no-unused-expressions':0
   },
   settings: {
     polyfills: ['fetch', 'promises', 'url'],

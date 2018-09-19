@@ -28,6 +28,10 @@ for (let i = 0; i < 4; i += 1) {
     name: `灵隐寺${arr2[i]}号塔` ,
     yigong ,
     total: 1920,
+    day:9.9,
+    month:99,
+    year:999,
+    long:3999
   })
 }
 

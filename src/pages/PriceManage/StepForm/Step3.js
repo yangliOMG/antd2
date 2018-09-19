@@ -50,21 +50,21 @@ class Step3 extends React.PureComponent {
         </Row>
       </div>
     );
-    const actions = (
-      <Fragment>
-        <Button type="primary" onClick={onFinish}>
-          再转一笔
-        </Button>
-        <Button>查看账单</Button>
-      </Fragment>
-    );
+    // const actions = (
+    //   <Fragment>
+    //     <Button type="primary" onClick={onFinish}>
+    //       再转一笔
+    //     </Button>
+    //     <Button>查看账单</Button>
+    //   </Fragment>
+    // );
     return (
       <Result
         type="success"
         title="操作成功"
-        description="预计两小时内到账"
+        description="调价申请已提交"
         extra={information}
-        actions={actions}
+        // actions={actions}
         className={styles.result}
       />
     );

@@ -181,7 +181,7 @@ class Gongde extends Component {
                 contentHeight={46}
                 footer={<div className={styles.describe}>今日功德</div>}
               >
-              <div className={styles.contentred}><Yuan>{count.gongde}</Yuan></div>
+              <div className={styles.contentred}><Yuan>12.3</Yuan></div>
               </ChartCard>
             </Col>
             <Col xl={12}>

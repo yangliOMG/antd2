@@ -33,7 +33,9 @@ module.exports = {
     'react/no-access-state-in-setstate':0,
     'react/jsx-closing-bracket-location':0,
     'no-return-assign':0,
-    'no-unused-expressions':0
+    'no-unused-expressions':0,
+    'react/no-multi-comp':0,
+    'one-var':0
   },
   settings: {
     polyfills: ['fetch', 'promises', 'url'],

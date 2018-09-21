@@ -1,4 +1,4 @@
-import { xinzhongData } from '@/services/api';
+import { xinzhongData, queryApply, removeApply} from '@/services/api';
 
 export default {
   namespace: 'xinzhong',
@@ -6,6 +6,11 @@ export default {
   state: {
     xzListData: [],
     towerListData: [],
+    towerListDataManage: [],
+    applyList:{
+      list: [],
+      pagination: {},
+    },
     count:{},
     xzTypeDataSex: [],
     xzTypeDataAddr: [],
@@ -20,6 +25,21 @@ export default {
         payload: response,
       });
     },
+    *fetchApply({ payload }, { call, put }) {
+      const response = yield call(queryApply, payload);
+      yield put({
+        type: 'saveApply',
+        payload: response,
+      });
+    },
+    *removeApply({ payload, callback }, { call, put }) {
+      const response = yield call(removeApply, payload);
+      yield put({
+        type: 'saveApply',
+        payload: response,
+      });
+      if (callback) callback();
+    },
   },
 
   reducers: {
@@ -27,6 +47,19 @@ export default {
       return {
         ...state,
         ...payload,
+      };
+    },
+    saveStepFormData(state, { payload }) {
+      return {
+        ...state,
+        towerListDataManage: payload,
+      };
+    },
+    saveApply(state, { payload }) {
+      console.log('payload',payload)
+      return {
+        ...state,
+        applyList: payload,
       };
     },
     clear() {

@@ -1,55 +1,65 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'dva';
-import { Button, Row, Col } from 'antd';
-import router from 'umi/router';
+import { Table } from 'antd';
+// import router from 'umi/router';
 import Result from '@/components/Result';
+import Yuan from '@/utils/Yuan';
+
 import styles from './style.less';
 
-@connect(({ form }) => ({
-  data: form.step,
+@connect(({ xinzhong }) => ({
+  towerListDataManage: xinzhong.towerListDataManage,
 }))
 class Step3 extends React.PureComponent {
   render() {
-    const { data } = this.props;
-    const onFinish = () => {
-      router.push('/price/step-form/info');
-    };
+    const { towerListDataManage } = this.props;
+    // const onFinish = () => {
+    //   router.push('/price/step-form/info');
+    // };
+    const columns = [
+      {
+        title: "序号",
+        dataIndex: 'index',
+        key: 'index',
+      },
+      {
+        title: "塔名",
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: "1天",
+        dataIndex: 'day',
+        key: 'day',
+        render: d => <Yuan>{d}</Yuan> , 
+      },
+      {
+        title: "1月",
+        dataIndex: 'month',
+        key: 'month',
+        render: d => <Yuan>{d}</Yuan> , 
+      },
+      {
+        title: "1年",
+        dataIndex: 'year',
+        key: 'year',
+        render: d => <Yuan>{d}</Yuan> , 
+      },
+      {
+        title: "长明",
+        dataIndex: 'long',
+        key: 'long',
+        render: d => <Yuan>{d}</Yuan> , 
+      },
+    ];
     const information = (
-      <div className={styles.information}>
-        <Row>
-          <Col xs={24} sm={8} className={styles.label}>
-            付款账户：
-          </Col>
-          <Col xs={24} sm={16}>
-            {data.payAccount}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={24} sm={8} className={styles.label}>
-            收款账户：
-          </Col>
-          <Col xs={24} sm={16}>
-            {data.receiverAccount}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={24} sm={8} className={styles.label}>
-            收款人姓名：
-          </Col>
-          <Col xs={24} sm={16}>
-            {data.receiverName}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={24} sm={8} className={styles.label}>
-            转账金额：
-          </Col>
-          <Col xs={24} sm={16}>
-            <span className={styles.money}>{data.amount}</span> 元
-          </Col>
-        </Row>
-      </div>
-    );
+      <Table
+          rowKey={record => record.index}
+          columns={columns}
+          dataSource={towerListDataManage}
+          pagination={false}
+        />
+    )
     // const actions = (
     //   <Fragment>
     //     <Button type="primary" onClick={onFinish}>

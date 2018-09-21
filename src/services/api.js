@@ -54,7 +54,19 @@ export async function fakeChartData() {
   return request('/api/fake_chart_data');
 }
 export async function xinzhongData() {
-  return request('/api/xinzhong_data');
+  return request('/believers');
+}
+export async function queryApply(params) {
+  return request(`/api/applyList?${stringify(params)}`);
+}
+export async function removeApply(params) {
+  return request('/api/applyList', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'delete',
+    },
+  });
 }
 
 export async function queryTags() {

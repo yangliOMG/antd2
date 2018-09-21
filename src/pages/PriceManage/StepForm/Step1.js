@@ -31,24 +31,18 @@ class Step1 extends React.PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    this.reqRef = requestAnimationFrame(() => {
-      dispatch({
-        type: 'xinzhong/fetch',
-      });
-      this.timeoutId = setTimeout(() => {
-        this.setState({
-          loading: false,
-        });
-      }, 600);
+
+    dispatch({
+      type: 'xinzhong/fetch',
     });
+    this.timeoutId = setTimeout(() => {
+      this.setState({
+        loading: false,
+      });
+    }, 600);
   }
 
   componentWillUnmount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'xinzhong/clear',
-    });
-    cancelAnimationFrame(this.reqRef);
     clearTimeout(this.timeoutId);
   }
 
@@ -78,6 +72,7 @@ class Step1 extends React.PureComponent {
       let obj2 = towerListData.find(c=>v===c.name)
       obj ? arr.push(obj) : arr.push(obj2)
     })
+    
     this.setState({
       checkedList: arr,
       indeterminate: !!checkedArr.length && (checkedArr.length < towerListData.length),
@@ -87,6 +82,9 @@ class Step1 extends React.PureComponent {
 
   onCheckAllChange = (e) => {
     const { towerListData } = this.props;
+    // this.props.form.setFieldsValue({
+    //   facility: e.target.checked ? towerListData.map(v=>v.name) : [],
+    // })
     this.setState({
       checkedList: e.target.checked ? towerListData : [],
       indeterminate: false,
@@ -187,11 +185,15 @@ class Step1 extends React.PureComponent {
     const { getFieldDecorator, validateFields } = form;
     const onValidateForm = () => {
       validateFields((err, values) => {
-        console.log("values",values)
+        let subList = checkedList
+        const { day, month, year, long } = values
+        if(day){
+          subList = subList.map(v=>({ ...v, day, month, year, long, }))
+        }
         if (!err) {
           dispatch({
-            type: 'form/saveStepFormData',
-            payload: values,
+            type: 'xinzhong/saveStepFormData',
+            payload: subList,
           });
           router.push('/price/step-form/result');
         }
@@ -281,24 +283,22 @@ class Step1 extends React.PureComponent {
           <Col xl={14}>
             <Form layout="horizontal" className={radioValue==='1'?styles.stepForm:styles.stepForm700} hideRequiredMark>
               <FormItem {...formItemLayout} label="祈福塔">
-                {getFieldDecorator('facility', {
-                  // rules: [
-                  //   {
-                  //     required: true,
-                  //     message: '至少选一项',
-                  //   },
-                  // ],
-                })(
-                  <div>
-                    <Checkbox
-                      className={styles.allCheck}
-                      indeterminate={this.state.indeterminate}
-                      onChange={this.onCheckAllChange}
-                      checked={this.state.checkAll}
-                    >全选</Checkbox>
-                    <CheckboxGroup options={towerListData.map(v=>v.name)} value={checkedList.map(v=>v.name)} onChange={this.onCheckboxChange} />
-                  </div>
-                )}
+                <Checkbox
+                  className={styles.allCheck}
+                  indeterminate={this.state.indeterminate}
+                  onChange={this.onCheckAllChange}
+                  checked={this.state.checkAll}
+                >全选</Checkbox>
+                {/* {getFieldDecorator('facility', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '至少选一项',
+                    },
+                  ],
+                })( */}
+                  <CheckboxGroup options={towerListData.map(v=>v.name)} value={checkedList.map(v=>v.name)} onChange={this.onCheckboxChange} />
+                {/* )} */}
               </FormItem>
                 <Col>
                   <span className={styles.price}>价格：</span>
@@ -312,18 +312,15 @@ class Step1 extends React.PureComponent {
                     {text:'1天',id:'day'},
                     {text:'1月',id:'month'},
                     {text:'1年',id:'year'},
-                    {text:'长明',id:'lang'},
+                    {text:'长明',id:'long'},
                   ].map((v)=>
                       <FormItem key={v.id} {...formItemLayout} label={v.text}>
-                        <span>￥</span>
                         {getFieldDecorator(v.id, {
                           rules: [
-                            {
-                              required: true,
-                              message: '请填写价格',
-                            },
+                            { required: true,  message: '请输入价格', },
+                            { pattern: /^(\d+)((?:\.\d+)?)$/, message: '请输入合法金额数字', },
                           ],
-                        })(<Input placeholder={v.text} style={{ width: '200px' }}  />)}
+                        })(<Input prefix="￥" placeholder='请输入价格' style={{ width: '200px' }}  />)}
                       </FormItem>
                   ):
                   <Table

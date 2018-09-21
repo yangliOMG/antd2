@@ -41,11 +41,6 @@ export default [
         icon: 'money-collect',
         routes: [
           {
-            path: '/price/apply',
-            name: 'apply',
-            component: './PriceManage/Apply',
-          },
-          {
             path: '/price/step-form',
             name: 'stepform',
             component: './PriceManage/StepForm',
@@ -68,11 +63,11 @@ export default [
               },
             ],
           },
-          // {
-          //   path: '/manage/gongde',
-          //   name: 'gongde',
-          //   component: './IndexManage/Gongde',
-          // },
+          {
+            path: '/price/check',
+            name: 'check',
+            component: './PriceManage/Check',
+          },
         ],
       },
       {

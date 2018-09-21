@@ -7,7 +7,6 @@ export default {
   'menu.manage.xinzhong': '信众管理',
   'menu.manage.gongde': '功德管理',
   'menu.price': '价格管理',
-  'menu.price.apply': '调价申请',
   'menu.price.stepform': '调价申请',
   'menu.price.stepform.info': '表单填写',
   'menu.price.stepform.result': '完成',

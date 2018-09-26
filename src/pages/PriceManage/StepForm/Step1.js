@@ -10,9 +10,8 @@ import styles from './style.less';
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
 
-@connect(({ xinzhong, loading }) => ({
-  towerListData: xinzhong.towerListData,
-  loading: loading.effects['xinzhong/fetch'],
+@connect(({ gongde }) => ({
+  facilityList: gongde.facilityList,
 }))
 @Form.create()
 class Step1 extends React.PureComponent {
@@ -33,12 +32,13 @@ class Step1 extends React.PureComponent {
     const { dispatch } = this.props;
 
     dispatch({
-      type: 'xinzhong/fetch',
+      type: 'gongde/fetch',
     });
     this.timeoutId = setTimeout(() => {
       this.setState({
         loading: false,
       });
+      this.onCheckAllChange({target:{checked:true}})
     }, 600);
   }
 
@@ -46,9 +46,10 @@ class Step1 extends React.PureComponent {
     clearTimeout(this.timeoutId);
   }
 
+  //  表格保存事件
   handleSave = (row) => {
     const newData = [...this.state.checkedList];
-    const index = newData.findIndex(item => row.key === item.key);
+    const index = newData.findIndex(item => row.id === item.id);
     const item = newData[index];
     newData.splice(index, 1, {
       ...item,
@@ -57,42 +58,45 @@ class Step1 extends React.PureComponent {
     this.setState({ checkedList: newData });
   }
 
+  //  单选事件
   onRadioChange = (e) => {
     this.setState({
       radioValue: e.target.value
     })
   }
-
+  
+  //  多选事件
   onCheckboxChange = (checkedArr) => {
-    const { towerListData } = this.props;
+    const { facilityList } = this.props;
     const { checkedList } = this.state;
     let arr = []
     checkedArr.forEach(v=>{
       let obj = checkedList.find(c=>v===c.name)
-      let obj2 = towerListData.find(c=>v===c.name)
+      let obj2 = facilityList.find(c=>v===c.name)
       obj ? arr.push(obj) : arr.push(obj2)
     })
     
     this.setState({
       checkedList: arr,
-      indeterminate: !!checkedArr.length && (checkedArr.length < towerListData.length),
-      checkAll: checkedArr.length === towerListData.length,
+      indeterminate: !!checkedArr.length && (checkedArr.length < facilityList.length),
+      checkAll: checkedArr.length === facilityList.length,
     });
   }
 
   onCheckAllChange = (e) => {
-    const { towerListData } = this.props;
+    const { facilityList } = this.props;
     // this.props.form.setFieldsValue({
-    //   facility: e.target.checked ? towerListData.map(v=>v.name) : [],
+    //   facility: e.target.checked ? facilityList.map(v=>v.name) : [],
     // })
     this.setState({
-      checkedList: e.target.checked ? towerListData : [],
+      checkedList: e.target.checked ? facilityList : [],
       indeterminate: false,
       checkAll: e.target.checked,
     });
   }
 
 
+  //  当前祈福塔价格 事件
   toggleTable = () => {
     const { expandTable } = this.state;
     this.setState({
@@ -108,7 +112,7 @@ class Step1 extends React.PureComponent {
   renderSimpleTable(){
     return (
       <div>
-        <span className={styles.textdesc}>当前价格</span>
+        <span className={styles.textdesc}>当前祈福塔价格</span>
           <a style={{ marginLeft: 8 }} onClick={this.toggleTable}>
             展开 <Icon type="down" />
           </a>
@@ -120,49 +124,52 @@ class Step1 extends React.PureComponent {
     const columns = [
       {
         title: "序号",
-        dataIndex: 'index',
-        key: 'index',
+        dataIndex: 'id',
+        key: 'id',
+        render: (text, record, index)  => index + 1 , 
       },
       {
         title: "塔名",
         dataIndex: 'name',
-        key: 'name',
       },
       {
         title: "1天",
         dataIndex: 'day',
-        key: 'day',
-        render: d => <Yuan>{d}</Yuan> , 
+        render: d => <Yuan>{d/100}</Yuan> , 
       },
       {
         title: "1月",
         dataIndex: 'month',
-        key: 'month',
-        render: d => <Yuan>{d}</Yuan> , 
+        render: d => <Yuan>{d/100}</Yuan> , 
       },
       {
         title: "1年",
         dataIndex: 'year',
-        key: 'year',
-        render: d => <Yuan>{d}</Yuan> , 
+        render: d => <Yuan>{d/100}</Yuan> , 
       },
       {
         title: "长明",
         dataIndex: 'long',
-        key: 'long',
-        render: d => <Yuan>{d}</Yuan> , 
+        render: d => <Yuan>{d/100}</Yuan> , 
       },
     ];
 
-    const { towerListData } = this.props;
-
+    const { facilityList } = this.props;
+    const ftable = facilityList.map(v=>({
+      id:v.id,
+      name:v.name,
+      day:(v.priceList.find(w=>w.duration===1)||"").price,
+      month:(v.priceList.find(w=>w.duration===30)||"").price,
+      year:(v.priceList.find(w=>w.duration===365)||"").price,
+      long:(v.priceList.find(w=>w.duration===7200)||"").price
+    }))
     return (
       <div>
         <Table
-          rowKey={record => record.index}
+          rowKey={record => record.id}
           size="small"
           columns={columns}
-          dataSource={towerListData}
+          dataSource={ftable}
           pagination={{
             style: { marginBottom: 0 },
             pageSize: 5,
@@ -179,7 +186,7 @@ class Step1 extends React.PureComponent {
 
   render() {
     const { checkedList, radioValue, loading: stateLoading } = this.state;
-    const { form, dispatch, towerListData, loading: propsLoding, } = this.props;
+    const { form, dispatch, facilityList, loading: propsLoding, } = this.props;
     const loading = propsLoding || stateLoading;
 
     const { getFieldDecorator, validateFields } = form;
@@ -190,9 +197,10 @@ class Step1 extends React.PureComponent {
         if(day){
           subList = subList.map(v=>({ ...v, day, month, year, long, }))
         }
+        subList = subList.map(v=>({ id:v.id, name:v.name, day:v.day*100, month:v.month*100, year:v.year*100, long:v.long*100, }))
         if (!err) {
           dispatch({
-            type: 'xinzhong/saveStepFormData',
+            type: 'apply/saveStepFormData',
             payload: subList,
           });
           router.push('/price/step-form/result');
@@ -224,7 +232,6 @@ class Step1 extends React.PureComponent {
       {
         title: "1天",
         dataIndex: 'day',
-        key: 'day',
         width:'20%',
         editable: true,
         render: d => d>0?<Yuan>{d}</Yuan>:'-' , 
@@ -232,7 +239,6 @@ class Step1 extends React.PureComponent {
       {
         title: "1月",
         dataIndex: 'month',
-        key: 'month',
         width:'20%',
         editable: true,
         render: d => d>0?<Yuan>{d}</Yuan>:'-' , 
@@ -240,7 +246,6 @@ class Step1 extends React.PureComponent {
       {
         title: "1年",
         dataIndex: 'year',
-        key: 'year',
         width:'20%',
         editable: true,
         render: d => d>0?<Yuan>{d}</Yuan>:'-' , 
@@ -248,7 +253,6 @@ class Step1 extends React.PureComponent {
       {
         title: "长明",
         dataIndex: 'long',
-        key: 'long',
         width:'20%',
         editable: true,
         render: d => d>0?<Yuan>{d}</Yuan>:'-' , 
@@ -297,13 +301,13 @@ class Step1 extends React.PureComponent {
                     },
                   ],
                 })( */}
-                  <CheckboxGroup options={towerListData.map(v=>v.name)} value={checkedList.map(v=>v.name)} onChange={this.onCheckboxChange} />
+                  <CheckboxGroup options={facilityList.map(v=>v.name)} value={checkedList.map(v=>v.name)} onChange={this.onCheckboxChange} />
                 {/* )} */}
               </FormItem>
                 <Col>
                   <span className={styles.price}>价格：</span>
                   <Radio.Group onChange={this.onRadioChange} value={radioValue}>
-                    <Radio value="1">联合调价</Radio>
+                    <Radio value="1">合并调价</Radio>
                     <Radio value="2">逐个调价</Radio>
                   </Radio.Group>
                 </Col>
@@ -324,7 +328,7 @@ class Step1 extends React.PureComponent {
                       </FormItem>
                   ):
                   <Table
-                    rowKey={record => record.index}
+                    rowKey={record => record.id}
                     columns={columnss}
                     dataSource={checkedList}
                     components={components}

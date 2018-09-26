@@ -15,17 +15,10 @@ export default {
   'app.manage.xinzhong': '信众管理',
   'app.manage.xinzhongList': '信众管理列表',
   'app.manage.the-proportion-of-xinzhong': '信众类型占比',
-  'app.manage.table.index': '序号',
-  'app.manage.table.nick': '昵称',
-  'app.manage.table.img': '头像',
   'app.manage.channel.sex': '性别',
   'app.manage.channel.addr': '地区',
   'app.gongde.zongliang': '总量',
   'app.gongde.xiangqing': '详情',
-  'app.gongde.table.index': '序号',
-  'app.gongde.table.name': '塔名',
-  'app.gongde.table.yigong': '已供灯数',
-  'app.gongde.table.total': '总灯数',
 
 
 

@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { FormattedMessage } from 'umi/locale';
-import {
-  Row,
-  Col,
-  Tabs,
-  Card,
-  Table,
-} from 'antd';
-import {
-  ChartCard,
-} from '@/components/Charts';
+import { Row, Col, Tabs, Card, Table, } from 'antd';
+import { ChartCard, } from '@/components/Charts';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import Yuan from '@/utils/Yuan';
 
@@ -18,9 +10,8 @@ import styles from './Gongde.less';
 
 const { TabPane } = Tabs;
 
-@connect(({ xinzhong, loading }) => ({
-  xinzhong,
-  loading: loading.effects['xinzhong/fetch'],
+@connect(({ gongde }) => ({
+  gongde,
 }))
 class Gongde extends Component {
   constructor(props) {
@@ -34,7 +25,7 @@ class Gongde extends Component {
     const { dispatch } = this.props;
     this.reqRef = requestAnimationFrame(() => {
       dispatch({
-        type: 'xinzhong/fetch',
+        type: 'gongde/fetch',
       });
       this.timeoutId = setTimeout(() => {
         this.setState({
@@ -47,7 +38,7 @@ class Gongde extends Component {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'xinzhong/clear',
+      type: 'gongde/clear',
     });
     cancelAnimationFrame(this.reqRef);
     clearTimeout(this.timeoutId);
@@ -55,49 +46,37 @@ class Gongde extends Component {
 
   render() {
     const { loading: propsLoding, } = this.state;
-    const { xinzhong, loading: stateLoading } = this.props;
-    const {
-      towerListData,
-      count,
-    } = xinzhong;
+    const { gongde, loading: stateLoading } = this.props;
+    const { facilityList, allMoney, beliversSum, currentLight, dayMoney, lightSum, successLight } = gongde;
     const loading = propsLoding || stateLoading;
 
 
     const columns = [
       {
-        title: <FormattedMessage id="app.gongde.table.index" defaultMessage="Idx" />,
-        dataIndex: 'index',
-        key: 'index',
+        title: '序号',
+        dataIndex: 'id',
+        key: 'id',
+        render: (text, record, index)  => index + 1 , 
       },
       {
-        title: <FormattedMessage id="app.gongde.table.name" defaultMessage="Name" />,
+        title: '塔名',
         dataIndex: 'name',
-        key: 'name',
       },
       {
-        title: <FormattedMessage id="app.gongde.table.yigong" defaultMessage="Selected" />,
-        dataIndex: 'yigong',
-        key: 'yigong',
+        title: '已供灯数',
+        dataIndex: 'theCurrentLight',
       },
       {
-        title: <FormattedMessage id="app.gongde.table.total" defaultMessage="Total" />,
-        dataIndex: 'total',
-        key: 'total',
+        title: '总灯数',
+        dataIndex: 'theSumLight',
       },
     ]
 
-    const topColResponsiveProps = {
-      xs: 24,
-      sm: 12,
-      md: 12,
-      lg: 12,
-      xl: 6,
-      style: { marginBottom: 24 },
-    };
+    const topColResponsiveProps = { xs: 24, sm: 12, md: 12, lg: 12, xl: 6, }
 
     return (
       <GridContent>
-        <Row gutter={24}>
+        <Row gutter={24} style={{ marginBottom: 24 }}>
           <Col {...topColResponsiveProps} xl={12}>
             <Card bordered={false} bodyStyle={{ paddingTop: 0, paddingBottom: 0,}}>
               <Tabs tabBarStyle={{ marginBottom: 0 }}>
@@ -113,7 +92,7 @@ class Gongde extends Component {
                         contentHeight={46}
                         footer={<div className={styles.describe}>已供灯数</div>}
                       >
-                        <div className={styles.content}>{count.yigong}</div>
+                        <div className={styles.content}>{currentLight}</div>
                       </ChartCard>
                     </Col>
                     <Col xl={12} className={styles.pad}>
@@ -123,7 +102,7 @@ class Gongde extends Component {
                         contentHeight={46}
                         footer={<div className={styles.describe}>总灯数</div>}
                       >
-                        <div className={styles.content}>{count.total}</div>
+                        <div className={styles.content}>{lightSum}</div>
                       </ChartCard>
                     </Col>
                   </Row>
@@ -133,10 +112,10 @@ class Gongde extends Component {
                   key="details"
                 >
                   <Table
-                    rowKey={record => record.index}
+                    rowKey={record => record.id}
                     size="small"
                     columns={columns}
-                    dataSource={towerListData}
+                    dataSource={facilityList}
                     pagination={{
                       style: { marginBottom: 0 },
                       pageSize: 5,
@@ -146,24 +125,24 @@ class Gongde extends Component {
               </Tabs>
             </Card>
           </Col>
-          <Col {...topColResponsiveProps}>
+          <Col {...topColResponsiveProps} style={{ marginTop: 45 }}>
             <ChartCard
               bordered={false}
               loading={loading}
               contentHeight={46}
               footer={<div className={styles.describe}>累计供灯数</div>}
             >
-             <div className={styles.content}>{count.yigongtotal}</div>
+             <div className={styles.content}>{successLight}</div>
             </ChartCard>
           </Col>
-          <Col {...topColResponsiveProps}>
+          <Col {...topColResponsiveProps} style={{ marginTop: 45 }}>
             <ChartCard
               bordered={false}
               loading={loading}
               contentHeight={46}
               footer={<div className={styles.describe}>信众数</div>}
             >
-             <div className={styles.content}>{count.xinzhong}</div>
+             <div className={styles.content}>{beliversSum}</div>
             </ChartCard>
           </Col>
         </Row>
@@ -181,7 +160,7 @@ class Gongde extends Component {
                 contentHeight={46}
                 footer={<div className={styles.describe}>今日功德</div>}
               >
-              <div className={styles.contentred}><Yuan>12.3</Yuan></div>
+              <div className={styles.contentred}><Yuan>{dayMoney/100}</Yuan></div>
               </ChartCard>
             </Col>
             <Col xl={12}>
@@ -191,7 +170,7 @@ class Gongde extends Component {
                 contentHeight={46}
                 footer={<div className={styles.describe}>累计功德</div>}
               >
-              <div className={styles.contentred}><Yuan>{count.gongdetotal}</Yuan></div>
+              <div className={styles.contentred}><Yuan>{allMoney/100}</Yuan></div>
               </ChartCard>
             </Col>
           </Row>

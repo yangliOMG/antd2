@@ -57,8 +57,8 @@ class WarpFormItem extends Component {
   };
 
   runGetCaptchaCountDown = () => {
-    const { countDown } = this.props;
-    let count = countDown || 59;
+    const { countdown } = this.props;
+    let count = countdown || 59;
     this.setState({ count });
     this.interval = setInterval(() => {
       count -= 1;

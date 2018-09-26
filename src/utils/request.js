@@ -130,6 +130,15 @@ export default function request(
       }
       return response.json();
     })
+    .then(response => {         
+      // 删除returncode
+      console.log('response',response)
+      if(response.returnCode === 3005){
+        router.push('/user/login');
+      }else{
+        return response.data;
+      }
+    })
     .catch(e => {
       const status = e.name;
       if (status === 401) {

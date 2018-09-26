@@ -25,15 +25,15 @@ class Center extends PureComponent {
     dispatch({
       type: 'user/fetchCurrent',
     });
-    dispatch({
-      type: 'list/fetch',
-      payload: {
-        count: 8,
-      },
-    });
-    dispatch({
-      type: 'project/fetchNotice',
-    });
+    // dispatch({
+    //   type: 'list/fetch',
+    //   payload: {
+    //     count: 8,
+    //   },
+    // });
+    // dispatch({
+    //   type: 'project/fetchNotice',
+    // });
   }
 
   onTabChange = key => {
@@ -97,7 +97,7 @@ class Center extends PureComponent {
         key: 'articles',
         tab: (
           <span>
-            文章 <span style={{ fontSize: 14 }}>(8)</span>
+            留言 <span style={{ fontSize: 14 }}>(0)</span>
           </span>
         ),
       },
@@ -105,7 +105,7 @@ class Center extends PureComponent {
         key: 'applications',
         tab: (
           <span>
-            应用 <span style={{ fontSize: 14 }}>(8)</span>
+            应用 <span style={{ fontSize: 14 }}>(0)</span>
           </span>
         ),
       },
@@ -113,7 +113,7 @@ class Center extends PureComponent {
         key: 'projects',
         tab: (
           <span>
-            项目 <span style={{ fontSize: 14 }}>(8)</span>
+            项目 <span style={{ fontSize: 14 }}>(0)</span>
           </span>
         ),
       },
@@ -127,31 +127,31 @@ class Center extends PureComponent {
               {currentUser && Object.keys(currentUser).length ? (
                 <div>
                   <div className={styles.avatarHolder}>
-                    <img alt="" src={currentUser.avatar} />
-                    <div className={styles.name}>{currentUser.name}</div>
-                    <div>{currentUser.signature}</div>
+                    <img alt="" src={currentUser.headimgurl} />
+                    <div className={styles.name}>{currentUser.nick}</div>
+                    {/* <div>{currentUser.signature}</div> */}
                   </div>
                   <div className={styles.detail}>
                     <p>
                       <i className={styles.title} />
-                      {currentUser.title}
+                      {/* {currentUser.title} */}
                     </p>
                     <p>
                       <i className={styles.group} />
-                      {currentUser.group}
+                      {/* {currentUser.group} */}
                     </p>
                     <p>
                       <i className={styles.address} />
-                      {currentUser.geographic.province.label}
-                      {currentUser.geographic.city.label}
+                      {/* {currentUser.geographic.province.label}
+                      {currentUser.geographic.city.label} */}
                     </p>
                   </div>
                   <Divider dashed />
                   <div className={styles.tags}>
                     <div className={styles.tagsTitle}>标签</div>
-                    {currentUser.tags.concat(newTags).map(item => (
+                    {/* {currentUser.tags.concat(newTags).map(item => (
                       <Tag key={item.key}>{item.label}</Tag>
-                    ))}
+                    ))} */}
                     {inputVisible && (
                       <Input
                         ref={this.saveInputRef}
@@ -176,7 +176,7 @@ class Center extends PureComponent {
                   <Divider style={{ marginTop: 16 }} dashed />
                   <div className={styles.team}>
                     <div className={styles.teamTitle}>团队</div>
-                    <Spin spinning={projectLoading}>
+                    {/* <Spin spinning={projectLoading}>
                       <Row gutter={36}>
                         {notice.map(item => (
                           <Col key={item.id} lg={24} xl={12}>
@@ -187,7 +187,7 @@ class Center extends PureComponent {
                           </Col>
                         ))}
                       </Row>
-                    </Spin>
+                    </Spin> */}
                   </div>
                 </div>
               ) : (

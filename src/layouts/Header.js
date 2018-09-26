@@ -62,6 +62,15 @@ class HeaderView extends PureComponent {
     }
   };
 
+  handleTempleClick = ({ key }) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'login/changeTemple',
+      payload: key,
+    });
+    window.location.reload()
+  };
+
   handleNoticeVisibleChange = visible => {
     if (visible) {
       const { dispatch } = this.props;
@@ -130,6 +139,7 @@ class HeaderView extends PureComponent {
             onCollapse={handleMenuCollapse}
             onNoticeClear={this.handleNoticeClear}
             onMenuClick={this.handleMenuClick}
+            onTempleClick={this.handleTempleClick}
             onNoticeVisibleChange={this.handleNoticeVisibleChange}
             {...this.props}
           />
@@ -146,6 +156,8 @@ class HeaderView extends PureComponent {
 
 export default connect(({ user, global, setting, loading }) => ({
   currentUser: user.currentUser,
+  templeList: user.templeList,
+  tid: user.tid,
   collapsed: global.collapsed,
   fetchingNotices: loading.effects['global/fetchNotices'],
   notices: global.notices,

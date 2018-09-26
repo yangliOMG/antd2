@@ -53,21 +53,6 @@ export async function fakeSubmitForm(params) {
 export async function fakeChartData() {
   return request('/api/fake_chart_data');
 }
-export async function xinzhongData() {
-  return request('/believers');
-}
-export async function queryApply(params) {
-  return request(`/api/applyList?${stringify(params)}`);
-}
-export async function removeApply(params) {
-  return request('/api/applyList', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'delete',
-    },
-  });
-}
 
 export async function queryTags() {
   return request('/api/tags');
@@ -118,13 +103,6 @@ export async function updateFakeList(params) {
   });
 }
 
-export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
-    method: 'POST',
-    body: params,
-  });
-}
-
 export async function fakeRegister(params) {
   return request('/api/register', {
     method: 'POST',
@@ -138,4 +116,45 @@ export async function queryNotices() {
 
 export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
+}
+
+
+
+
+
+export async function fakeAccountLogin(params) {
+  return request(`/api/login/account?${stringify(params)}`);
+}
+export async function changeTemple(id) {
+  return request(`/api/changeTid?tid=${id}`);
+}
+
+export async function getBelieverList() {
+  return request('/api/believers');
+}
+export async function getGongdeInfo() {
+  return request('/api/Gongde');
+}
+
+
+export async function addApply(params) {
+  return request('/api/applyAdd', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+export async function queryApply(params) {
+  return request(`/api/applyList?${stringify(params)}`);
+}
+export async function removeApply(params) {
+  return request('/api/applyList', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'delete',
+    },
+  });
 }

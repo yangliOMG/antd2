@@ -6,6 +6,8 @@ export default {
   state: {
     list: [],
     currentUser: {},
+    templeList:[],
+    tid:''
   },
 
   effects: {
@@ -33,9 +35,12 @@ export default {
       };
     },
     saveCurrentUser(state, action) {
+      const payload = action.payload || {}
       return {
         ...state,
-        currentUser: action.payload || {},
+        currentUser: payload,
+        templeList: payload.templeList || [],
+        tid: payload.tid,
       };
     },
     changeNotifyCount(state, action) {

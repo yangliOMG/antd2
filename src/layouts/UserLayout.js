@@ -9,23 +9,23 @@ const links = [
   {
     key: 'help',
     title: '帮助',
-    href: '',
+    href: 'https://www.fuyoufayuan.com/html/index.html',
   },
   {
-    key: 'privacy',
-    title: '隐私',
-    href: '',
+    key: 'site',
+    title: '官网',
+    href: 'https://www.fuyoufayuan.com/html/index.html',
   },
   {
     key: 'terms',
     title: '条款',
-    href: '',
+    href: 'https://www.fuyoufayuan.com/html/index.html',
   },
 ];
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
+    Copyright <Icon type="copyright" /> 2018 瑞金网络 & 蚂蚁金服出品
   </Fragment>
 );
 
@@ -49,12 +49,10 @@ class UserLayout extends React.PureComponent {
         <div className={styles.content}>
           <div className={styles.top}>
             <div className={styles.header}>
-              <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>Ant Design</span>
-              </Link>
+                <span className={styles.title}>祈福塔</span>
             </div>
-            <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
+            <div className={styles.desc}>祈福塔后台管理系统</div>
           </div>
           {children}
         </div>

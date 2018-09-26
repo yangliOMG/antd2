@@ -2,18 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import router from 'umi/router';
 import { connect } from 'dva';
 import moment from 'moment';
-import {
-  Card,
-  Form,
-  Icon,
-  Button,
-  Dropdown,
-  Menu,
-  Modal,
-  message,
-  Divider,
-  Table,
-} from 'antd';
+import { Card, Form, Icon, Button, Dropdown, Menu, Modal, message, Divider, Table, } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Yuan from '@/utils/Yuan';
@@ -25,12 +14,11 @@ const getValue = obj =>
     .map(key => obj[key])
     .join(',');
 
-@connect(({ xinzhong, loading }) => ({
-  applyList: xinzhong.applyList, 
-  loading: loading.effects['xinzhong/fetch'],
+@connect(({ apply, }) => ({
+  applyList: apply.applyList, 
 }))
 @Form.create()
-class TableList extends PureComponent {
+class Check extends PureComponent {
   state = {
     selectedRows: [],
     formValues: {},
@@ -66,9 +54,9 @@ class TableList extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'xinzhong/fetchApply',
-    });
+    // dispatch({
+    //   type: 'apply/fetch',
+    // });
   }
   
   expandedRowRender = (record) => {
@@ -213,4 +201,4 @@ class TableList extends PureComponent {
   }
 }
 
-export default TableList
+export default Check

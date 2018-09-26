@@ -74,6 +74,7 @@ export default [
         path: '/dashboard',
         name: 'dashboard',
         icon: 'dashboard',
+        // hideInMenu: true,
         routes: [
           {
             path: '/dashboard/analysis',

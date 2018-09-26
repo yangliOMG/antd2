@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { FormattedMessage } from 'umi/locale';
-import {
-  Row,
-  Col,
-  Card,
-  Table,
-  Radio, Avatar
-} from 'antd';
-import {
-  Pie,
-} from '@/components/Charts';
+import { Row,Col,Card,Table,Radio, Avatar } from 'antd';
+import { Pie, } from '@/components/Charts';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 
 import styles from './Xinzhong.less';
@@ -65,29 +57,26 @@ class Xinzhong extends Component {
   render() {
     const {  xzType, loading: propsLoding, } = this.state;
     const { xinzhong, loading: stateLoading } = this.props;
-    const {
-      xzListData,
-      xzTypeDataSex,
-      xzTypeDataAddr,
-    } = xinzhong;
+    const { list, dataSex, dataAddr, } = xinzhong;
     const loading = propsLoding || stateLoading;
-    let xzPieData = xzType === 'sex' ? xzTypeDataSex : xzTypeDataAddr;
+    let xzPieData = xzType === 'sex' ? dataSex : dataAddr;
 
     const columns = [
       {
-        title: <FormattedMessage id="app.manage.table.index" defaultMessage="Idx" />,
-        dataIndex: 'index',
-        key: 'index',
+        title: '序号',
+        dataIndex: 'id',
+        key: 'id',
+        render: (text, record, index)  => index + 1 , 
       },
       {
-        title: <FormattedMessage id="app.manage.table.nick" defaultMessage="Nick" />,
+        title: '昵称',
         dataIndex: 'nick',
         key: 'nick',
       },
       {
-        title: <FormattedMessage id="app.manage.table.img" defaultMessage="Img" />,
-        dataIndex: 'img',
-        key: 'img',
+        title: '头像',
+        dataIndex: 'headImgURL',
+        key: 'headImgURL',
         render: src => <Avatar size="large" src={src} /> , 
       },
     ];
@@ -107,10 +96,10 @@ class Xinzhong extends Component {
               }
             >
               <Table
-                rowKey={record => record.index}
+                rowKey={record => record.id}
                 size="middle"
                 columns={columns}
-                dataSource={xzListData}
+                dataSource={list}
                 pagination={{
                   style: { marginBottom: 0 },
                   pageSize: 5,

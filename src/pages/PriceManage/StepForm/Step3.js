@@ -7,56 +7,52 @@ import Yuan from '@/utils/Yuan';
 
 import styles from './style.less';
 
-@connect(({ xinzhong }) => ({
-  towerListDataManage: xinzhong.towerListDataManage,
+@connect(({ apply }) => ({
+  facilityPriceList: apply.facilityPriceList,
 }))
 class Step3 extends React.PureComponent {
   render() {
-    const { towerListDataManage } = this.props;
+    const { facilityPriceList } = this.props;
     // const onFinish = () => {
     //   router.push('/price/step-form/info');
     // };
     const columns = [
       {
         title: "序号",
-        dataIndex: 'index',
-        key: 'index',
+        dataIndex: 'id',
+        key: 'id',
+        render: (text, record, index)  => index + 1 , 
       },
       {
         title: "塔名",
         dataIndex: 'name',
-        key: 'name',
       },
       {
         title: "1天",
         dataIndex: 'day',
-        key: 'day',
-        render: d => <Yuan>{d}</Yuan> , 
+        render: d => <Yuan>{d/100}</Yuan> , 
       },
       {
         title: "1月",
         dataIndex: 'month',
-        key: 'month',
-        render: d => <Yuan>{d}</Yuan> , 
+        render: d => <Yuan>{d/100}</Yuan> , 
       },
       {
         title: "1年",
         dataIndex: 'year',
-        key: 'year',
-        render: d => <Yuan>{d}</Yuan> , 
+        render: d => <Yuan>{d/100}</Yuan> , 
       },
       {
         title: "长明",
         dataIndex: 'long',
-        key: 'long',
-        render: d => <Yuan>{d}</Yuan> , 
+        render: d => <Yuan>{d/100}</Yuan> , 
       },
     ];
     const information = (
       <Table
-          rowKey={record => record.index}
+          rowKey={record => record.id}
           columns={columns}
-          dataSource={towerListDataManage}
+          dataSource={facilityPriceList}
           pagination={false}
         />
     )

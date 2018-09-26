@@ -2,6 +2,10 @@
 export default {
   // 支持值为 Object 和 Array
   'GET /api/currentUser': {
+    templeList:[
+      {id:1,name:'灵隐寺',currentStatus:1},
+      {id:2,name:'祗缘寺',currentStatus:0},
+    ],
     name: 'Serati Ma',
     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
     userid: '00000001',

@@ -7,7 +7,7 @@ import styles from './Login.less';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
-export default
+
 @connect(({ login, loading }) => ({
   login,
   submitting: loading.effects['login/login'],
@@ -80,11 +80,11 @@ class LoginPage extends Component {
             {login.status === 'error' &&
               login.type === 'account' &&
               !submitting &&
-              this.renderMessage('账户或密码错误（admin/888888）')}
-            <UserName name="userName" placeholder="admin/user" />
+              this.renderMessage('账户或密码错误')}
+            <UserName name="userName" placeholder="admin" />
             <Password
-              name="password"
-              placeholder="888888/123456"
+              name="passWord"
+              placeholder="admin"
               onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
             />
           </Tab>
@@ -94,28 +94,29 @@ class LoginPage extends Component {
               !submitting &&
               this.renderMessage('验证码错误')}
             <Mobile name="mobile" />
-            <Captcha name="captcha" countDown={120} onGetCaptcha={this.onGetCaptcha} />
+            <Captcha name="captcha" countdown={120} onGetCaptcha={this.onGetCaptcha} />
           </Tab>
-          <div>
+          {/* <div>
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
               自动登录
             </Checkbox>
             <a style={{ float: 'right' }} href="">
               忘记密码
             </a>
-          </div>
+          </div> */}
           <Submit loading={submitting}>登录</Submit>
           <div className={styles.other}>
             其他登录方式
-            <Icon className={styles.icon} type="alipay-circle" />
-            <Icon className={styles.icon} type="taobao-circle" />
-            <Icon className={styles.icon} type="weibo-circle" />
-            <Link className={styles.register} to="/User/Register">
+            {/* <Icon className={styles.icon} type="alipay-circle" theme="filled" />
+            <Icon className={styles.icon} type="taobao-circle" theme="filled" />
+            <Icon className={styles.icon} type="weibo-circle" theme="filled" /> */}
+            {/* <Link className={styles.register} to="/User/Register">
               注册账户
-            </Link>
+            </Link> */}
           </div>
         </Login>
       </div>
     );
   }
 }
+export default LoginPage

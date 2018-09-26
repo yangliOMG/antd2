@@ -51,9 +51,12 @@ export default class GlobalHeaderRight extends PureComponent {
   render() {
     const {
       currentUser,
+      templeList,
+      tid,
       fetchingNotices,
       onNoticeVisibleChange,
       onMenuClick,
+      onTempleClick,
       onNoticeClear,
       theme,
     } = this.props;
@@ -67,10 +70,10 @@ export default class GlobalHeaderRight extends PureComponent {
           <Icon type="setting" />
           <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
         </Menu.Item>
-        <Menu.Item key="triggerError">
+        {/* <Menu.Item key="triggerError">
           <Icon type="close-circle" />
           <FormattedMessage id="menu.account.trigger" defaultMessage="Trigger Error" />
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Divider />
         <Menu.Item key="logout">
           <Icon type="logout" />
@@ -78,6 +81,18 @@ export default class GlobalHeaderRight extends PureComponent {
         </Menu.Item>
       </Menu>
     );
+    const templeMenu = (
+      <Menu selectedKeys={[]} onClick={onTempleClick}>
+        {
+          templeList.map(v=>
+            <Menu.Item key={v.id} disabled={v.id===tid}>
+                {v.name}
+            </Menu.Item>
+          )
+        }
+      </Menu>
+    );
+    const templeContext = (templeList.find(v=>v.id===tid)||"").name || "选择寺院"
     const noticeData = this.getNoticeData();
     let className = styles.right;
     if (theme === 'dark') {
@@ -137,18 +152,23 @@ export default class GlobalHeaderRight extends PureComponent {
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
           />
         </NoticeIcon> */}
-        {currentUser.name ? (
-          <Dropdown overlay={menu}>
-            <span className={`${styles.action} ${styles.account}`}>
-              <Avatar
-                size="small"
-                className={styles.avatar}
-                src={currentUser.avatar}
-                alt="avatar"
-              />
-              <span className={styles.name}>{currentUser.name}</span>
-            </span>
-          </Dropdown>
+        {currentUser.nick ? (
+          <div>
+            <Dropdown overlay={templeMenu}>
+                <a href="#">{templeContext} <Icon type="down" /></a>
+            </Dropdown>
+            <Dropdown overlay={menu}>
+              <span className={`${styles.action} ${styles.account}`}>
+                <Avatar
+                  size="small"
+                  className={styles.avatar}
+                  src={currentUser.headimgurl}
+                  alt="avatar"
+                />
+                <span className={styles.name}>{currentUser.nick}</span>
+              </span>
+            </Dropdown>
+          </div>
         ) : (
           <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
         )}

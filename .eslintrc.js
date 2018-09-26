@@ -35,7 +35,13 @@ module.exports = {
     'no-return-assign':0,
     'no-unused-expressions':0,
     'react/no-multi-comp':0,
-    'one-var':0
+    'one-var':0,
+    'arrow-body-style':0,
+    'no-param-reassign':0,
+    'no-else-return':0,
+    'no-underscore-dangle':0,
+    'consistent-return':0,
+    'no-useless-return':0
   },
   settings: {
     polyfills: ['fetch', 'promises', 'url'],

@@ -5,10 +5,7 @@ export default {
 
   state: {
     facilityPriceList: [],
-    applyList:{
-      list: [],
-      pagination: {},
-    },
+    applyList:[],
     loading: false,
   },
 

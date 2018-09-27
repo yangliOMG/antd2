@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, Radio, Card , Checkbox, Col, Icon, Table} from 'antd';
+import { Form, Input, Button, Radio, Card , Checkbox, Col, Icon, Table, message} from 'antd';
 import { EditableFormRow, EditableCell} from '@/components/EditableCell';
 import router from 'umi/router';
 import Yuan from '@/utils/Yuan';
@@ -196,6 +196,9 @@ class Step1 extends React.PureComponent {
         const { day, month, year, long } = values
         if(day){
           subList = subList.map(v=>({ ...v, day, month, year, long, }))
+        }
+        if( subList.filter(v=>v.day&&v.month&&v.year&&v.long).length !== subList.length ){
+          return message.error('表单未完成')
         }
         subList = subList.map(v=>({ id:v.id, name:v.name, day:v.day*100, month:v.month*100, year:v.year*100, long:v.long*100, }))
         if (!err) {

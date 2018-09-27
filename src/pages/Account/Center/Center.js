@@ -39,6 +39,9 @@ class Center extends PureComponent {
   onTabChange = key => {
     const { match } = this.props;
     switch (key) {
+      case 'message':
+        router.push(`${match.url}/message`);
+        break;
       case 'articles':
         router.push(`${match.url}/articles`);
         break;
@@ -94,10 +97,18 @@ class Center extends PureComponent {
 
     const operationTabList = [
       {
+        key: 'message',
+        tab: (
+          <span>
+            消息 <span style={{ fontSize: 14 }}>(0)</span>
+          </span>
+        ),
+      },
+      {
         key: 'articles',
         tab: (
           <span>
-            留言 <span style={{ fontSize: 14 }}>(0)</span>
+            文章 <span style={{ fontSize: 14 }}>(0)</span>
           </span>
         ),
       },

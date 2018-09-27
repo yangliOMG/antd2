@@ -107,9 +107,7 @@ class LoginPage extends Component {
           <Submit loading={submitting}>登录</Submit>
           <div className={styles.other}>
             其他登录方式
-            {/* <Icon className={styles.icon} type="alipay-circle" theme="filled" />
-            <Icon className={styles.icon} type="taobao-circle" theme="filled" />
-            <Icon className={styles.icon} type="weibo-circle" theme="filled" /> */}
+            {/* <Icon className={styles.icon} type="wechat" theme="filled" /> */}
             {/* <Link className={styles.register} to="/User/Register">
               注册账户
             </Link> */}

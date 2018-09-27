@@ -1,9 +1,6 @@
 import React from 'react';
 import {  Input, Form } from 'antd';
 
-import styles from './index.less'
-
-
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
 
@@ -80,10 +77,10 @@ export class EditableCell extends React.Component {
                 editing ? (
                   <FormItem style={{ margin: 0 }}>
                     {form.getFieldDecorator(dataIndex, {
-                      rules: [{
-                        required: true,
-                        message: `必填项`,
-                      }],
+                      rules: [
+                        { required: true, message: `必填项`, },
+                        { pattern: /^(\d+)((?:\.\d+)?)$/, message: '输入金额', },
+                      ],
                       initialValue: record[dataIndex],
                     })(
                       <Input

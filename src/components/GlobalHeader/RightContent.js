@@ -11,32 +11,33 @@ export default class GlobalHeaderRight extends PureComponent {
   getNoticeData() {
     const { notices = [] } = this.props;
     if (notices.length === 0) {
-      return {};
+      return [];
     }
     const newNotices = notices.map(notice => {
       const newNotice = { ...notice };
-      if (newNotice.datetime) {
-        newNotice.datetime = moment(notice.datetime).fromNow();
+      if (newNotice.createTime) {
+        newNotice.createTime = moment(notice.createTime).fromNow();
       }
-      if (newNotice.id) {
-        newNotice.key = newNotice.id;
+      if (newNotice.content) {
+        newNotice.description = newNotice.content;
       }
-      if (newNotice.extra && newNotice.status) {
-        const color = {
-          todo: '',
-          processing: 'blue',
-          urgent: 'red',
-          doing: 'gold',
-        }[newNotice.status];
-        newNotice.extra = (
-          <Tag color={color} style={{ marginRight: 0 }}>
-            {newNotice.extra}
-          </Tag>
-        );
-      }
+      // if (newNotice.title && newNotice.status) {
+      //   const color = {
+      //     todo: '',
+      //     processing: 'blue',
+      //     urgent: 'red',
+      //     doing: 'gold',
+      //   }[newNotice.status];
+      //   newNotice.extra = (
+      //     <Tag color={color} style={{ marginRight: 0 }}>
+      //       {newNotice.title}
+      //     </Tag>
+      //   );
+      // }
       return newNotice;
     });
-    return groupBy(newNotices, 'type');
+    return newNotices
+    // return groupBy(newNotices, 'type');
   }
 
   changLang = () => {
@@ -122,41 +123,31 @@ export default class GlobalHeaderRight extends PureComponent {
             <Icon type="question-circle-o" />
           </a>
         </Tooltip>
-        <NoticeIcon
-          className={styles.action}
-          count={currentUser.notifyCount}
-          onItemClick={(item, tabProps) => {
-            console.log(item, tabProps); // eslint-disable-line
-          }}
-          onClear={onNoticeClear}
-          onPopupVisibleChange={onNoticeVisibleChange}
-          loading={fetchingNotices}
-          popupAlign={{ offset: [20, -16] }}
-        >
-          <NoticeIcon.Tab
-            list={noticeData['通知']}
-            title="通知"
-            emptyText="你已查看所有通知"
-            emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
-          />
-          <NoticeIcon.Tab
-            list={noticeData['消息']}
-            title="消息"
-            emptyText="您已读完所有消息"
-            emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
-          />
-          <NoticeIcon.Tab
-            list={noticeData['待办']}
-            title="待办"
-            emptyText="你已完成所有待办"
-            emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
-          />
-        </NoticeIcon> */}
+         */}
         {currentUser.nick ? (
           <div>
             <Dropdown overlay={templeMenu}>
                 <a href="#">{templeContext} <Icon type="down" /></a>
             </Dropdown>
+            <NoticeIcon
+              className={styles.action}
+              count={currentUser.notifyCount}
+              onItemClick={(item, tabProps) => {
+                console.log(item, tabProps); 
+              }}
+              onClear={onNoticeClear}
+              onPopupVisibleChange={onNoticeVisibleChange}
+              loading={fetchingNotices}
+              popupAlign={{ offset: [20, -16] }}
+            >
+              <NoticeIcon.Tab
+                // list={noticeData['消息']}
+                list={noticeData}
+                title="消息"
+                emptyText="您已读完所有消息"
+                emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
+              />
+            </NoticeIcon>
             <Dropdown overlay={menu}>
               <span className={`${styles.action} ${styles.account}`}>
                 <Avatar

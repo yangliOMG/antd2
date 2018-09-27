@@ -128,6 +128,9 @@ export async function fakeAccountLogin(params) {
 export async function changeTemple(id) {
   return request(`/api/changeTid?tid=${id}`);
 }
+export async function msgList() {
+  return request('/api/msgList');
+}
 
 export async function getBelieverList() {
   return request('/api/believers');
@@ -146,8 +149,8 @@ export async function addApply(params) {
     },
   });
 }
-export async function queryApply(params) {
-  return request(`/api/applyList?${stringify(params)}`);
+export async function queryApply() {
+  return request(`/api/applyList`);
 }
 export async function removeApply(params) {
   return request('/api/applyList', {

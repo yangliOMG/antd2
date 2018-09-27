@@ -2,12 +2,15 @@ import React, { PureComponent, Fragment } from 'react';
 import router from 'umi/router';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Card, Form, Icon, Button, Dropdown, Menu, Modal, message, Divider, Table, } from 'antd';
+import { Card, Form, Icon, Button, Dropdown, Menu, Modal, message, Divider, Table, Radio } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Yuan from '@/utils/Yuan';
 
 import styles from './style.less';
+
+const RadioGroup = Radio.Group;
+const RadioButton = Radio.Button;
 
 const getValue = obj =>
   Object.keys(obj)
@@ -31,14 +34,13 @@ class Check extends PureComponent {
     },
     {
       title: '申请时间',
-      dataIndex: 'time',
+      dataIndex: 'applytime',
       sorter: true,
       render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '相关塔名',
-      dataIndex: 'desc',
-      render: arr => arr.map(v=>v.name).join('/'),
+      dataIndex: 'fid',
     },
     {
       title: '操作',
@@ -54,9 +56,9 @@ class Check extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    // dispatch({
-    //   type: 'apply/fetch',
-    // });
+    dispatch({
+      type: 'apply/fetch',
+    });
   }
   
   expandedRowRender = (record) => {
@@ -176,14 +178,19 @@ class Check extends PureComponent {
               </Button>
               {selectedRows.length > 0 && (
                 <span>
-                  <Button>批量操作</Button>
-                  <Dropdown overlay={menu}>
+                  <Button disabled='true'>批量操作</Button>
+                  <Dropdown overlay={menu} disabled='true'>
                     <Button>
                       更多操作 <Icon type="down" />
                     </Button>
                   </Dropdown>
                 </span>
               )}
+              <RadioGroup defaultValue="all" className={styles.radiogroup}>
+                <RadioButton value="all">待审核</RadioButton>
+                <RadioButton value="progress">已审核</RadioButton>
+                <RadioButton value="waiting">全部</RadioButton>
+              </RadioGroup>
             </div>
             <StandardTable
               selectedRows={selectedRows}

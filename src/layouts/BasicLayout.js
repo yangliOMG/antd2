@@ -90,6 +90,9 @@ class BasicLayout extends React.PureComponent {
       type: 'user/fetchCurrent',
     });
     dispatch({
+      type: 'global/fetchNotices',
+    });
+    dispatch({
       type: 'setting/getSetting',
     });
     this.renderRef = requestAnimationFrame(() => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, List } from 'antd';
+import { Avatar, List, Icon } from 'antd';
 import classNames from 'classnames';
 import styles from './NoticeList.less';
 
@@ -21,6 +21,8 @@ export default function NoticeList({
       </div>
     );
   }
+  const icon = { 101:{type:"check-circle", color:"#52c41a"}, 102:{type:"close-circle", color:"#eb2f96"},}
+
   return (
     <div>
       <List className={styles.list}>
@@ -35,10 +37,15 @@ export default function NoticeList({
             ) : (
               item.avatar
             )
-          ) : null;
+          ) : (
+            item.type ? 
+              <Icon type={(icon[item.type]||"").type} theme="twoTone" twoToneColor={(icon[item.type]||"").color} />
+              :
+              null
+          );
 
           return (
-            <List.Item className={itemCls} key={item.key || i} onClick={() => onClick(item)}>
+            <List.Item className={itemCls} key={item.id || i} onClick={() => onClick(item)}>
               <List.Item.Meta
                 className={styles.meta}
                 avatar={<span className={styles.iconElement}>{leftIcon}</span>}
@@ -50,8 +57,8 @@ export default function NoticeList({
                 }
                 description={
                   <div>
-                    <div className={styles.description} title={item.description}>
-                      {item.description}
+                    <div className={styles.description} title={item.content}>
+                      {item.content}
                     </div>
                     <div className={styles.datetime}>{item.datetime}</div>
                   </div>

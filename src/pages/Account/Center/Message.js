@@ -4,49 +4,47 @@ import moment from 'moment';
 import { connect } from 'dva';
 import styles from './Message.less';
 
-@connect(({ list }) => ({
-  list,
+@connect(({ global }) => ({
+  notices: global.notices,
 }))
 class Message extends PureComponent {
 
   handleMarked(id,sta){
-    if(sta === 0){
-      const { dispatch, list: { list }, } = this.props;
+    if(false){
+      const { dispatch, notices, } = this.props;
   
-      list.find(v=>v.id===id).status = 1
+      notices.find(v=>v.id===id).status = 1
       dispatch({
         type: 'list/queryList',
-        payload: list,
+        payload: notices,
       });
     }
   }
 
   render() {
-    const { list: { list }, } = this.props;
-
-    const ListContent = ({ data: { time } }) => (
+    const { notices, } = this.props;
+    const ListContent = ({ data: { createTime } }) => (
       <div className={styles.listContent}>
         <div className={styles.listContentItem}>
-          <p>{moment(time).format('YYYY-MM-DD HH:mm')}</p>
+          <p>{moment(createTime).format('YYYY-MM-DD HH:mm')}</p>
         </div>
       </div>
     );
-    
     const icon = { 101:{type:"check-circle", color:"#52c41a"}, 102:{type:"close-circle", color:"#eb2f96"},}
     return (
       <List
         size="large"
         rowKey="id"
-        dataSource={list}
+        dataSource={notices}
         renderItem={item => (
           <List.Item>
             <List.Item.Meta
               title={
                 <a className={item.status === 1? styles.readed : styles.unread} onClick={()=>this.handleMarked(item.id, item.status)}>
-                  <Icon type={icon[item.type].type} theme="twoTone" twoToneColor={icon[item.type].color} />
+                  <Icon type={(icon[item.type]||"").type} theme="twoTone" twoToneColor={(icon[item.type]||"").color} />
                   {item.title}
                 </a>}
-              description={item.subDescription}
+              description={item.content}
             />
             <ListContent data={item} />
           </List.Item>

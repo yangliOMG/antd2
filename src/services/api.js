@@ -114,10 +114,6 @@ export async function queryNotices() {
   return request('/api/notices');
 }
 
-export async function getFakeCaptcha(mobile) {
-  return request(`/api/captcha?mobile=${mobile}`);
-}
-
 
 
 
@@ -125,11 +121,22 @@ export async function getFakeCaptcha(mobile) {
 export async function fakeAccountLogin(params) {
   return request(`/api/login/account?${stringify(params)}`);
 }
+export async function getFakeCaptcha(mobile) {
+  return request(`/api/login/captcha?phone=${mobile}`);
+}
 export async function changeTemple(id) {
   return request(`/api/changeTid?tid=${id}`);
 }
 export async function msgList() {
   return request('/api/msgList');
+}
+export async function msgClear(idList) {
+  return request('/api/msgClear', {
+    method: 'POST',
+    body: [
+      ...idList,
+    ],
+  });
 }
 
 export async function getBelieverList() {
@@ -143,21 +150,15 @@ export async function getGongdeInfo() {
 export async function addApply(params) {
   return request('/api/applyAdd', {
     method: 'POST',
-    body: {
+    body: [
       ...params,
-      method: 'post',
-    },
+    ],
   });
 }
-export async function queryApply() {
-  return request(`/api/applyList`);
+export async function queryApply(params) {
+  return request(`/api/applyList${stringify(params)}`);
 }
-export async function removeApply(params) {
-  return request('/api/applyList', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'delete',
-    },
-  });
+export async function changeApply(params) {
+  const url =  params.type === 'pass'? '/api/applyPass': '/api/applyFail'
+  return request(`${url}?id=${params.id}`);
 }

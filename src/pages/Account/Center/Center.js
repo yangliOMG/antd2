@@ -100,7 +100,7 @@ class Center extends PureComponent {
         key: 'message',
         tab: (
           <span>
-            消息 <span style={{ fontSize: 14 }}>(0)</span>
+            消息 <span style={{ fontSize: 14 }}>({currentUser.notifyCount})</span>
           </span>
         ),
       },

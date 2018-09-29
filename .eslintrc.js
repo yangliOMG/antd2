@@ -41,7 +41,8 @@ module.exports = {
     'no-else-return':0,
     'no-underscore-dangle':0,
     'consistent-return':0,
-    'no-useless-return':0
+    'no-useless-return':0,
+    'no-nested-ternary':0
   },
   settings: {
     polyfills: ['fetch', 'promises', 'url'],

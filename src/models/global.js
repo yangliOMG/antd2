@@ -1,4 +1,4 @@
-import { msgList } from '@/services/api';
+import { msgList, msgClear } from '@/services/api';
 
 export default {
   namespace: 'global',
@@ -17,15 +17,19 @@ export default {
       });
       yield put({
         type: 'user/changeNotifyCount',
-        payload: data.length,
+        payload: data.filter(item => item.status===2 ).length,
       });
     },
-    *clearNotices({ payload }, { put, select }) {
+    *clearNotices({ payload }, { put, select, call }) {
+      const idArr = yield select(state => state.global.notices.filter(item => item.status===2 ));
+      if( idArr.length>0 ){
+        yield call(msgClear,idArr.map(i => i.id));
+      }
       yield put({
         type: 'saveClearedNotices',
         payload,
       });
-      const count = yield select(state => state.global.notices.length);
+      const count = yield select(state => state.global.notices.filter(item => item.status===2 ).length);
       yield put({
         type: 'user/changeNotifyCount',
         payload: count,
@@ -49,7 +53,7 @@ export default {
     saveClearedNotices(state, { payload }) {
       return {
         ...state,
-        notices: state.notices.filter(item => item.type !== payload),
+        notices: state.notices.map(item => ({...item ,status: item.status=1}) ),
       };
     },
   },

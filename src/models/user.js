@@ -38,7 +38,7 @@ export default {
       const payload = action.payload || {}
       return {
         ...state,
-        currentUser: payload,
+        currentUser: { notifyCount:state.currentUser.notifyCount, ...payload},
         templeList: payload.templeList || [],
         tid: payload.tid,
       };

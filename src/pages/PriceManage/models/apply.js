@@ -1,4 +1,4 @@
-import { addApply, queryApply, removeApply} from '@/services/api';
+import { addApply, queryApply, changeApply} from '@/services/api';
 
 export default {
   namespace: 'apply',
@@ -14,7 +14,7 @@ export default {
       const response = yield call(addApply, payload);
       yield put({
         type: 'saveStepFormData',
-        payload: response,
+        payload,
       });
       if (callback) callback();
     },
@@ -25,11 +25,11 @@ export default {
         payload: response,
       });
     },
-    *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeApply, payload);
+    *change({ payload, callback }, { call, put }) {
+      const response = yield call(changeApply, payload);
       yield put({
-        type: 'saveApply',
-        payload: response,
+        type: 'changeApply',
+        payload,
       });
       if (callback) callback();
     },
@@ -43,10 +43,15 @@ export default {
       };
     },
     saveApply(state, { payload }) {
-      console.log('payload',payload)
       return {
         ...state,
-        applyList: payload,
+        applyList: payload.lists,
+      };
+    },
+    changeApply(state, { payload }) {
+      return {
+        ...state,
+        applyList: state.applyList.filter(v=>v.id !== payload.id),
       };
     },
     clear() {

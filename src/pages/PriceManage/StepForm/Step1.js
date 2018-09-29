@@ -149,7 +149,7 @@ class Step1 extends React.PureComponent {
       },
       {
         title: "长明",
-        dataIndex: 'long',
+        dataIndex: 'longtime',
         render: d => <Yuan>{d/100}</Yuan> , 
       },
     ];
@@ -161,7 +161,7 @@ class Step1 extends React.PureComponent {
       day:(v.priceList.find(w=>w.duration===1)||"").price,
       month:(v.priceList.find(w=>w.duration===30)||"").price,
       year:(v.priceList.find(w=>w.duration===365)||"").price,
-      long:(v.priceList.find(w=>w.duration===7200)||"").price
+      longtime:(v.priceList.find(w=>w.duration===7200)||"").price
     }))
     return (
       <div>
@@ -193,17 +193,17 @@ class Step1 extends React.PureComponent {
     const onValidateForm = () => {
       validateFields((err, values) => {
         let subList = checkedList
-        const { day, month, year, long } = values
+        const { day, month, year, longtime } = values
         if(day){
-          subList = subList.map(v=>({ ...v, day, month, year, long, }))
+          subList = subList.map(v=>({ ...v, day, month, year, longtime, }))
         }
-        if( subList.filter(v=>v.day&&v.month&&v.year&&v.long).length !== subList.length ){
+        if( subList.filter(v=>v.day&&v.month&&v.year&&v.longtime).length !== subList.length ){
           return message.error('表单未完成')
         }
-        subList = subList.map(v=>({ id:v.id, name:v.name, day:v.day*100, month:v.month*100, year:v.year*100, long:v.long*100, }))
+        subList = subList.map(v=>({ fid:v.id, name:v.name, day:v.day*100, month:v.month*100, year:v.year*100, longtime:v.longtime*100, }))
         if (!err) {
           dispatch({
-            type: 'apply/saveStepFormData',
+            type: 'apply/add',
             payload: subList,
           });
           router.push('/price/step-form/result');
@@ -255,7 +255,7 @@ class Step1 extends React.PureComponent {
       },
       {
         title: "长明",
-        dataIndex: 'long',
+        dataIndex: 'longtime',
         width:'20%',
         editable: true,
         render: d => d>0?<Yuan>{d}</Yuan>:'-' , 
@@ -319,7 +319,7 @@ class Step1 extends React.PureComponent {
                     {text:'1天',id:'day'},
                     {text:'1月',id:'month'},
                     {text:'1年',id:'year'},
-                    {text:'长明',id:'long'},
+                    {text:'长明',id:'longtime'},
                   ].map((v)=>
                       <FormItem key={v.id} {...formItemLayout} label={v.text}>
                         {getFieldDecorator(v.id, {

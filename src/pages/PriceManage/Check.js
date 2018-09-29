@@ -30,7 +30,7 @@ class Check extends PureComponent {
   columns = [
     {
       title: '申请人',
-      dataIndex: 'applyman',
+      dataIndex: 'sysName',
     },
     {
       title: '申请时间',
@@ -40,61 +40,74 @@ class Check extends PureComponent {
     },
     {
       title: '相关塔名',
-      dataIndex: 'fid',
+      dataIndex: 'priceModifyList',
+      render: arr => <span>{arr.map(v=>v.name).join("，")}</span>,
     },
     {
       title: '操作',
       render: (row) => (
+        row.status !== 1 ? row.status !== 3 ? 
         <Fragment>
-          <a onClick={() =>this.passAndFail(row.key,'fail')}>不通过</a>
+          <a onClick={() =>this.passAndFail(row.id,'fail')}>不通过</a>
           <Divider type="vertical" />
-          <a onClick={() =>this.passAndFail(row.key,'pass')}>通过</a>
+          <a onClick={() =>this.passAndFail(row.id,'pass')}>通过</a>
         </Fragment>
+        :
+        <span>未通过</span>
+        :
+        <span>已通过</span>
       ),
     },
   ];
 
   componentDidMount() {
     const { dispatch } = this.props;
+    const params = {
+      currentPage: 1,
+      pageSize: 10,
+      status: "2"
+    }
     dispatch({
       type: 'apply/fetch',
+      // payload: params,
     });
   }
   
   expandedRowRender = (record) => {
     const col = [
       { title: '塔名', dataIndex: 'name', key: 'name' },
-      { title: '天', dataIndex: 'day', key: 'day', render: v => <Yuan>{v}</Yuan> },
-      { title: '月', dataIndex: 'month', key: 'month', render: v => <Yuan>{v}</Yuan> },
-      { title: '年', dataIndex: 'year', key: 'year', render: v => <Yuan>{v}</Yuan> },
-      { title: '长明', dataIndex: 'long', key: 'long', render: v => <Yuan>{v}</Yuan> },
+      { title: '天', dataIndex: 'day', render: v => <Yuan>{v/100}</Yuan> },
+      { title: '月', dataIndex: 'month',  render: v => <Yuan>{v/100}</Yuan> },
+      { title: '年', dataIndex: 'year',  render: v => <Yuan>{v/100}</Yuan> },
+      { title: '长明', dataIndex: 'longtime',  render: v => <Yuan>{v/100}</Yuan> },
     ];
     return (
       <Table
+        rowKey='id'
         size='small'
         columns={col}
-        dataSource={record.desc}
+        dataSource={record.priceModifyList}
         pagination={false}
       />
     );
   }
 
-  passAndFail = (key, type) => {
+  passAndFail = (id, type) => {
     const text = type === 'pass' ? '通过':'不通过'
     Modal.confirm({
       title: `审核${text}`,
       content: `确定${text}该调价申请吗？`,
       okText: '确认',
       cancelText: '取消',
-      onOk: () => this.handleDeleteItem(key),
+      onOk: () => this.handleChangeStatus(id,type),
     });
   }
 
-  handleDeleteItem = key => {
+  handleChangeStatus = (id,type) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'xinzhong/removeApply',
-      payload: { key:[key] },
+      type: 'apply/change',
+      payload: {id,type},
     });
     message.success('操作成功');
   };
@@ -119,7 +132,20 @@ class Check extends PureComponent {
     }
 
     dispatch({
-      type: 'xinzhong/fetchApply',
+      type: 'apply/fetch',
+      payload: params,
+    });
+  }
+
+  handleRadioChange = (e) => {
+    const { dispatch } = this.props;
+    const params = {
+      currentPage: 1,
+      pageSize: 10,
+      status: e.target.value
+    }
+    dispatch({
+      type: 'apply/fetch',
       payload: params,
     });
   }
@@ -186,10 +212,10 @@ class Check extends PureComponent {
                   </Dropdown>
                 </span>
               )}
-              <RadioGroup defaultValue="all" className={styles.radiogroup}>
-                <RadioButton value="all">待审核</RadioButton>
-                <RadioButton value="progress">已审核</RadioButton>
-                <RadioButton value="waiting">全部</RadioButton>
+              <RadioGroup defaultValue="2" className={styles.radiogroup} onChange={v => this.handleRadioChange(v)}>
+                <RadioButton value="2">待审核</RadioButton>
+                <RadioButton value="1,3">已审核</RadioButton>
+                <RadioButton value="1,2,3">全部</RadioButton>
               </RadioGroup>
             </div>
             <StandardTable

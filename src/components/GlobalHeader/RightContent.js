@@ -18,8 +18,8 @@ export default class GlobalHeaderRight extends PureComponent {
       if (newNotice.createTime) {
         newNotice.createTime = moment(notice.createTime).fromNow();
       }
-      if (newNotice.content) {
-        newNotice.description = newNotice.content;
+      if (newNotice.type>100 && newNotice.type<200) {
+        newNotice.typeName = "通知" 
       }
       // if (newNotice.title && newNotice.status) {
       //   const color = {
@@ -36,8 +36,7 @@ export default class GlobalHeaderRight extends PureComponent {
       // }
       return newNotice;
     });
-    return newNotices
-    // return groupBy(newNotices, 'type');
+    return groupBy(newNotices.filter(i=>i.status===2), 'typeName');
   }
 
   changLang = () => {
@@ -141,10 +140,9 @@ export default class GlobalHeaderRight extends PureComponent {
               popupAlign={{ offset: [20, -16] }}
             >
               <NoticeIcon.Tab
-                // list={noticeData['消息']}
-                list={noticeData}
-                title="消息"
-                emptyText="您已读完所有消息"
+                list={noticeData['通知']}
+                title="通知"
+                emptyText="您已读完所有通知"
                 emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
               />
             </NoticeIcon>

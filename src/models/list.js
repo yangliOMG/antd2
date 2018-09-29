@@ -5,8 +5,6 @@ export default {
 
   state: {
     list: [
-      {id:1,title:'申请不通过',subDescription:"您所提交的申请不通过",time:"2018-07-12",status:0,type:102},
-      {id:2,title:'申请通过',subDescription:"您所提交的申请已通过",time:"2018-07-12",status:1,type:101},
     ],
   },
 

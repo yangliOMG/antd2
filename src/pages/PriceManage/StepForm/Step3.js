@@ -19,8 +19,8 @@ class Step3 extends React.PureComponent {
     const columns = [
       {
         title: "序号",
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'fid',
+        key: 'fid',
         render: (text, record, index)  => index + 1 , 
       },
       {
@@ -44,13 +44,13 @@ class Step3 extends React.PureComponent {
       },
       {
         title: "长明",
-        dataIndex: 'long',
+        dataIndex: 'longtime',
         render: d => <Yuan>{d/100}</Yuan> , 
       },
     ];
     const information = (
       <Table
-          rowKey={record => record.id}
+          rowKey={record => record.fid}
           columns={columns}
           dataSource={facilityPriceList}
           pagination={false}

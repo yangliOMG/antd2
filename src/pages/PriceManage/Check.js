@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import router from 'umi/router';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Card, Form, Icon, Button, Dropdown, Menu, Modal, message, Divider, Table, Radio } from 'antd';
+import { Card, Form, Icon, Button, Dropdown, Menu, Modal, message, Divider, Table, Radio, Badge } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Yuan from '@/utils/Yuan';
@@ -25,12 +25,15 @@ class Check extends PureComponent {
   state = {
     selectedRows: [],
     formValues: {},
+    radioDefault:"2",
   };
 
   columns = [
     {
       title: '申请人',
-      dataIndex: 'sysName',
+      dataIndex: 'applyer',
+      sorter: true,
+      render: (td,row) => row.sysName,
     },
     {
       title: '申请时间',
@@ -53,23 +56,24 @@ class Check extends PureComponent {
           <a onClick={() =>this.passAndFail(row.id,'pass')}>通过</a>
         </Fragment>
         :
-        <span>未通过</span>
+        <Badge status="default" text="未通过" />
         :
-        <span>已通过</span>
+        <Badge status="success" text="已通过" />
       ),
     },
   ];
 
   componentDidMount() {
     const { dispatch } = this.props;
+    const { radioDefault } = this.state;
     const params = {
       currentPage: 1,
       pageSize: 10,
-      status: "2"
+      status: radioDefault
     }
     dispatch({
       type: 'apply/fetch',
-      // payload: params,
+      payload: params,
     });
   }
   
@@ -114,7 +118,7 @@ class Check extends PureComponent {
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
-    const { formValues } = this.state;
+    const { formValues, radioDefault } = this.state;
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
       const newObj = { ...obj };
       newObj[key] = getValue(filtersArg[key]);
@@ -124,6 +128,7 @@ class Check extends PureComponent {
     const params = {
       currentPage: pagination.current,
       pageSize: pagination.pageSize,
+      status: radioDefault,
       ...formValues,
       ...filters,
     };
@@ -147,6 +152,11 @@ class Check extends PureComponent {
     dispatch({
       type: 'apply/fetch',
       payload: params,
+      callback: () => {
+        this.setState({
+          radioDefault: e.target.value
+        });
+      },
     });
   }
 
@@ -186,7 +196,7 @@ class Check extends PureComponent {
 
   render() {
     const { applyList, loading, } = this.props;
-    const { selectedRows, } = this.state;
+    const { selectedRows,radioDefault } = this.state;
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
         <Menu.Item key="remove">删除</Menu.Item>
@@ -212,7 +222,7 @@ class Check extends PureComponent {
                   </Dropdown>
                 </span>
               )}
-              <RadioGroup defaultValue="2" className={styles.radiogroup} onChange={v => this.handleRadioChange(v)}>
+              <RadioGroup defaultValue={radioDefault} className={styles.radiogroup} onChange={v => this.handleRadioChange(v)}>
                 <RadioButton value="2">待审核</RadioButton>
                 <RadioButton value="1,3">已审核</RadioButton>
                 <RadioButton value="1,2,3">全部</RadioButton>

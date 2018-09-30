@@ -16,6 +16,7 @@ import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
+import 'moment/locale/zh-cn';
 
 const { Content } = Layout;
 const { check } = Authorized;

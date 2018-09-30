@@ -22,7 +22,6 @@ export default function NoticeList({
     );
   }
   const icon = { 101:{type:"check-circle", color:"#52c41a"}, 102:{type:"close-circle", color:"#eb2f96"},}
-
   return (
     <div>
       <List className={styles.list}>

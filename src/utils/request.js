@@ -132,7 +132,7 @@ export default function request(
     })
     .then(response => {         
       // 删除returncode
-      console.log('response',response)
+      console.log(url,response)
       if(response.returnCode === 3005){
         router.push('/user/login');
       }else{

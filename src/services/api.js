@@ -156,7 +156,7 @@ export async function addApply(params) {
   });
 }
 export async function queryApply(params) {
-  return request(`/api/applyList${stringify(params)}`);
+  return request(`/api/applyList?${stringify(params)}`);
 }
 export async function changeApply(params) {
   const url =  params.type === 'pass'? '/api/applyPass': '/api/applyFail'

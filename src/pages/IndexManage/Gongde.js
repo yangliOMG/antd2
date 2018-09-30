@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { FormattedMessage } from 'umi/locale';
 import { Row, Col, Tabs, Card, Table, } from 'antd';
-import { ChartCard, } from '@/components/Charts';
+
+import { ChartCard, MiniArea, MiniBar, Bar} from '@/components/Charts';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import Yuan from '@/utils/Yuan';
 
@@ -10,8 +11,9 @@ import styles from './Gongde.less';
 
 const { TabPane } = Tabs;
 
-@connect(({ gongde }) => ({
+@connect(({ gongde, chart  }) => ({
   gongde,
+  chart,
 }))
 class Gongde extends Component {
   constructor(props) {
@@ -46,10 +48,10 @@ class Gongde extends Component {
 
   render() {
     const { loading: propsLoding, } = this.state;
-    const { gongde, loading: stateLoading } = this.props;
+    const { gongde, chart, loading: stateLoading } = this.props;
+    const { visitData,salesData } = chart;
     const { facilityList, allMoney, beliversSum, currentLight, dayMoney, lightSum, successLight } = gongde;
     const loading = propsLoding || stateLoading;
-
 
     const columns = [
       {
@@ -125,24 +127,26 @@ class Gongde extends Component {
               </Tabs>
             </Card>
           </Col>
-          <Col {...topColResponsiveProps} style={{ marginTop: 45 }}>
+          <Col {...topColResponsiveProps}>
             <ChartCard
               bordered={false}
               loading={loading}
               contentHeight={46}
+              total={successLight}
               footer={<div className={styles.describe}>累计供灯数</div>}
             >
-             <div className={styles.content}>{successLight}</div>
+             <MiniArea color="#975FE4" data={visitData} />
             </ChartCard>
           </Col>
-          <Col {...topColResponsiveProps} style={{ marginTop: 45 }}>
+          <Col {...topColResponsiveProps}>
             <ChartCard
               bordered={false}
               loading={loading}
               contentHeight={46}
+              total={beliversSum}
               footer={<div className={styles.describe}>信众数</div>}
             >
-             <div className={styles.content}>{beliversSum}</div>
+              <MiniBar data={visitData} />
             </ChartCard>
           </Col>
         </Row>
@@ -167,10 +171,14 @@ class Gongde extends Component {
               <ChartCard
                 bordered={false}
                 loading={loading}
-                contentHeight={46}
+                contentHeight={150}
+                title={<div className={styles.contentred}><Yuan>{allMoney/100}</Yuan></div>}
                 footer={<div className={styles.describe}>累计功德</div>}
               >
-              <div className={styles.contentred}><Yuan>{allMoney/100}</Yuan></div>
+                <Bar
+                  height={150}
+                  data={salesData}
+                />
               </ChartCard>
             </Col>
           </Row>

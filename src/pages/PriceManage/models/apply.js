@@ -5,7 +5,10 @@ export default {
 
   state: {
     facilityPriceList: [],
-    applyList:[],
+    applyList:{
+      lists:[],
+      pagination: {},
+    },
     loading: false,
   },
 
@@ -18,12 +21,13 @@ export default {
       });
       if (callback) callback();
     },
-    *fetch({ payload }, { call, put }) {
+    *fetch({ payload, callback }, { call, put }) {
       const response = yield call(queryApply, payload);
       yield put({
         type: 'saveApply',
         payload: response,
       });
+      if (callback) callback();
     },
     *change({ payload, callback }, { call, put }) {
       const response = yield call(changeApply, payload);
@@ -45,7 +49,7 @@ export default {
     saveApply(state, { payload }) {
       return {
         ...state,
-        applyList: payload.lists,
+        applyList: payload,
       };
     },
     changeApply(state, { payload }) {

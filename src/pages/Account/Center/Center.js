@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import moment from 'moment';
 import Link from 'umi/link';
 import router from 'umi/router';
 import { Card, Row, Col, Icon, Avatar, Tag, Divider, Spin, Input } from 'antd';
@@ -9,7 +10,6 @@ import styles from './Center.less';
 @connect(({ loading, user, project }) => ({
   listLoading: loading.effects['list/fetch'],
   currentUser: user.currentUser,
-  currentUserLoading: loading.effects['user/fetchCurrent'],
   project,
   projectLoading: loading.effects['project/fetchNotice'],
 }))
@@ -87,7 +87,6 @@ class Center extends PureComponent {
     const {
       listLoading,
       currentUser,
-      currentUserLoading,
       project: { notice },
       projectLoading,
       match,
@@ -134,27 +133,32 @@ class Center extends PureComponent {
       <GridContent className={styles.userCenter}>
         <Row gutter={24}>
           <Col lg={7} md={24}>
-            <Card bordered={false} style={{ marginBottom: 24 }} loading={currentUserLoading}>
+            <Card bordered={false} style={{ marginBottom: 24 }}>
               {currentUser && Object.keys(currentUser).length ? (
                 <div>
                   <div className={styles.avatarHolder}>
                     <img alt="" src={currentUser.headimgurl} />
-                    <div className={styles.name}>{currentUser.nick}</div>
-                    {/* <div>{currentUser.signature}</div> */}
+                    <div className={styles.name}>
+                      {currentUser.nick}
+                      { currentUser.sex !== "女"? currentUser.sex !== "男"?
+                           null
+                           : <Icon type="man" theme="outlined" className={styles.iconMan} />
+                           : <Icon type="woman" theme="outlined" className={styles.iconWoman} />}
+                    </div>
+                      <div>{currentUser.phone}</div>
                   </div>
                   <div className={styles.detail}>
                     <p>
                       <i className={styles.title} />
-                      {/* {currentUser.title} */}
+                      {currentUser.name}
                     </p>
                     <p>
                       <i className={styles.group} />
-                      {/* {currentUser.group} */}
+                      {currentUser.dept}
                     </p>
                     <p>
                       <i className={styles.address} />
-                      {/* {currentUser.geographic.province.label}
-                      {currentUser.geographic.city.label} */}
+                      注册日期：{moment(currentUser.createtime).format('YYYY-MM-DD')}
                     </p>
                   </div>
                   <Divider dashed />

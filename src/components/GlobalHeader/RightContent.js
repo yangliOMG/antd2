@@ -16,7 +16,7 @@ export default class GlobalHeaderRight extends PureComponent {
     const newNotices = notices.map(notice => {
       const newNotice = { ...notice };
       if (newNotice.createTime) {
-        newNotice.createTime = moment(notice.createTime).fromNow();
+        newNotice.datetime = moment(notice.createTime).fromNow();
       }
       if (newNotice.type>100 && newNotice.type<200) {
         newNotice.typeName = "通知" 

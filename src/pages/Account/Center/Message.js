@@ -26,7 +26,7 @@ class Message extends PureComponent {
     const ListContent = ({ data: { createTime } }) => (
       <div className={styles.listContent}>
         <div className={styles.listContentItem}>
-          <p>{moment(createTime).format('YYYY-MM-DD HH:mm')}</p>
+          <p>{moment(createTime).fromNow()}</p>
         </div>
       </div>
     );

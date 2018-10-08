@@ -11,7 +11,7 @@ import styles from './Gongde.less';
 
 const { TabPane } = Tabs;
 
-@connect(({ gongde, chart  }) => ({
+@connect(({ gongde, chart }) => ({
   gongde,
   chart,
 }))
@@ -49,8 +49,8 @@ class Gongde extends Component {
   render() {
     const { loading: propsLoding, } = this.state;
     const { gongde, chart, loading: stateLoading } = this.props;
-    const { visitData,salesData } = chart;
     const { facilityList, allMoney, beliversSum, currentLight, dayMoney, lightSum, successLight } = gongde;
+    const { visitData ,salesData } = chart;
     const loading = propsLoding || stateLoading;
 
     const columns = [

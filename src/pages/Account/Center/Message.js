@@ -36,6 +36,7 @@ class Message extends PureComponent {
         size="large"
         rowKey="id"
         dataSource={notices}
+        pagination={{ pageSize:10 }}
         renderItem={item => (
           <List.Item>
             <List.Item.Meta

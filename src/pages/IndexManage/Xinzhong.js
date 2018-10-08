@@ -96,7 +96,7 @@ class Xinzhong extends Component {
               }
             >
               <Table
-                rowKey={record => record.id}
+                rowKey="id"
                 size="middle"
                 columns={columns}
                 dataSource={list}

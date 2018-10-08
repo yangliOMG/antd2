@@ -45,10 +45,6 @@ export default {
       yield call(getFakeCaptcha, payload);
     },
 
-    *changeTemple({ payload }, { call }) {
-      yield call(changeTemple, payload);
-    },
-
     *logout(_, { put }) {
       yield put({
         type: 'changeLoginStatus',
@@ -66,6 +62,10 @@ export default {
           }),
         })
       );
+    },
+
+    *changeTemple({ payload }, { call }) {
+      yield call(changeTemple, payload);
     },
   },
 

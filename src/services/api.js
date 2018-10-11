@@ -145,6 +145,12 @@ export async function getBelieverList() {
 export async function getGongdeInfo() {
   return request('/api/Gongde');
 }
+export async function getGongdeDetail(params) {
+  return request(`/api/Data?time=${params}`);
+}
+export async function getGongdeChart() {
+  return request('/api/gongdeChart');
+}
 
 
 export async function addApply(params) {

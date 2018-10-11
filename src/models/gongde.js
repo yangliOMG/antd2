@@ -1,4 +1,4 @@
-import { getGongdeInfo} from '@/services/api';
+import { getGongdeInfo, getGongdeDetail} from '@/services/api';
 
 export default {
   namespace: 'gongde',
@@ -11,6 +11,9 @@ export default {
     successLight: 0,
     dayMoney: 0,
     allMoney: 0,
+
+    dayList:[],
+    allList:[],
   },
 
   effects: {
@@ -19,6 +22,14 @@ export default {
       yield put({
         type: 'save',
         payload: response,
+      });
+    },
+    *fetchDetail(_, { call, put }) {
+      const dayList = yield call(getGongdeDetail,'day');
+      const allList = yield call(getGongdeDetail,'all');
+      yield put({
+        type: 'save',
+        payload: {dayList,allList},
       });
     },
   },

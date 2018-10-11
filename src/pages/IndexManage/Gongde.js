@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { FormattedMessage } from 'umi/locale';
 import { Row, Col, Tabs, Card, Table, } from 'antd';
+import moment from 'moment';
 
 import { ChartCard, MiniArea, MiniBar, Bar} from '@/components/Charts';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
@@ -29,6 +29,12 @@ class Gongde extends Component {
       dispatch({
         type: 'gongde/fetch',
       });
+      dispatch({
+        type: 'gongde/fetchDetail',
+      });
+      dispatch({
+        type: 'chart/gongdeChart',
+      });
       this.timeoutId = setTimeout(() => {
         this.setState({
           loading: false,
@@ -49,7 +55,7 @@ class Gongde extends Component {
   render() {
     const { loading: propsLoding, } = this.state;
     const { gongde, chart, loading: stateLoading } = this.props;
-    const { facilityList, allMoney, beliversSum, currentLight, dayMoney, lightSum, successLight } = gongde;
+    const { facilityList, allMoney, beliversSum, currentLight, dayMoney, lightSum, successLight, dayList, allList } = gongde;
     const { visitData ,salesData } = chart;
     const loading = propsLoding || stateLoading;
 
@@ -74,6 +80,28 @@ class Gongde extends Component {
       },
     ]
 
+    const columns2 = [
+      {
+        title: '祈福人',
+        dataIndex: 'prayman',
+      },
+      {
+        title: '描述',
+        dataIndex: 'fname',
+        render: (text, record, index)  => `${text}供灯${record.num}盏` , 
+      },
+      {
+        title: '功德',
+        dataIndex: 'sum',
+        render: d => <Yuan>{d/100}</Yuan> , 
+      },
+      {
+        title: '时间',
+        dataIndex: 'payTime',
+        render: d => moment(d).format("YYYY-MM-DD") , 
+      },
+    ]
+
     const topColResponsiveProps = { xs: 24, sm: 12, md: 12, lg: 12, xl: 6, }
 
     return (
@@ -82,10 +110,7 @@ class Gongde extends Component {
           <Col {...topColResponsiveProps} xl={12}>
             <Card bordered={false} bodyStyle={{ paddingTop: 0, paddingBottom: 0,}}>
               <Tabs tabBarStyle={{ marginBottom: 0 }}>
-                <TabPane
-                  tab={<FormattedMessage id="app.gongde.zongliang" defaultMessage="Total" />}
-                  key="total"
-                >
+                <TabPane tab='总量' key="total">
                   <Row gutter={24}>
                     <Col xl={12} className={styles.pad}>
                       <ChartCard
@@ -109,10 +134,7 @@ class Gongde extends Component {
                     </Col>
                   </Row>
                 </TabPane>
-                <TabPane
-                  tab={<FormattedMessage id="app.gongde.xiangqing" defaultMessage="Details" />}
-                  key="details"
-                >
+                <TabPane tab='详情' key="details">
                   <Table
                     rowKey={record => record.id}
                     size="small"
@@ -158,28 +180,58 @@ class Gongde extends Component {
         >
           <Row gutter={24}>
             <Col xl={12}>
-              <ChartCard
-                bordered={false}
-                loading={loading}
-                contentHeight={46}
-                footer={<div className={styles.describe}>今日功德</div>}
-              >
-              <div className={styles.contentred}><Yuan>{dayMoney/100}</Yuan></div>
-              </ChartCard>
+              <Tabs tabBarStyle={{ marginBottom: 0 }}>
+                <TabPane tab="总量" key="total">
+                  <ChartCard
+                    bordered={false}
+                    loading={loading}
+                    contentHeight={46}
+                    footer={<div className={styles.describe}>今日功德</div>}
+                  >
+                    <div className={styles.contentred}><Yuan>{dayMoney/100}</Yuan></div>
+                  </ChartCard>
+                </TabPane>
+                <TabPane tab="详情" key="details">
+                  <Table
+                    rowKey={record => record.id}
+                    size="small"
+                    columns={columns2}
+                    dataSource={dayList}
+                    pagination={{
+                      pageSize: 5,
+                    }}
+                  />
+                </TabPane>
+              </Tabs>
             </Col>
             <Col xl={12}>
-              <ChartCard
-                bordered={false}
-                loading={loading}
-                contentHeight={150}
-                title={<div className={styles.contentred}><Yuan>{allMoney/100}</Yuan></div>}
-                footer={<div className={styles.describe}>累计功德</div>}
-              >
-                <Bar
-                  height={150}
-                  data={salesData}
-                />
-              </ChartCard>
+            <Tabs tabBarStyle={{ marginBottom: 0 }}>
+                <TabPane tab="总量" key="total">
+                  <ChartCard
+                    bordered={false}
+                    loading={loading}
+                    contentHeight={150}
+                    title={<div className={styles.contentred}><Yuan>{allMoney/100}</Yuan></div>}
+                    footer={<div className={styles.describe}>累计功德</div>}
+                  >
+                    <Bar
+                      height={150}
+                      data={salesData}
+                    />
+                  </ChartCard>
+                </TabPane>
+                <TabPane tab="详情" key="details">
+                  <Table
+                    rowKey={record => record.id}
+                    size="small"
+                    columns={columns2}
+                    dataSource={allList}
+                    pagination={{
+                      pageSize: 5,
+                    }}
+                  />
+                </TabPane>
+              </Tabs>
             </Col>
           </Row>
         </Card>

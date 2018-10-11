@@ -17,8 +17,6 @@ export default {
   'app.manage.the-proportion-of-xinzhong': '信众类型占比',
   'app.manage.channel.sex': '性别',
   'app.manage.channel.addr': '地区',
-  'app.gongde.zongliang': '总量',
-  'app.gongde.xiangqing': '详情',
 
 
 

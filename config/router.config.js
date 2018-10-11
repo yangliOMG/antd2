@@ -66,6 +66,7 @@ export default [
           {
             path: '/price/check',
             name: 'check',
+            authority: ['admin'],
             component: './PriceManage/Check',
           },
         ],

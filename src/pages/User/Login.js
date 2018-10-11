@@ -77,22 +77,22 @@ class LoginPage extends Component {
           }}
         >
           <Tab key="account" tab="账户密码登录">
-            {login.status === 'error' &&
+            {login.status !== 'ok' &&
               login.type === 'account' &&
               !submitting &&
-              this.renderMessage('账户或密码错误')}
-            <UserName name="userName" placeholder="admin" />
+              this.renderMessage(login.status)}
+            <UserName name="userName" placeholder="账户" />
             <Password
               name="passWord"
-              placeholder="admin"
+              placeholder="密码"
               onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
             />
           </Tab>
           <Tab key="mobile" tab="手机号登录">
-            {login.status === 'error' &&
+            {login.status !== 'ok' &&
               login.type === 'mobile' &&
               !submitting &&
-              this.renderMessage('验证码错误')}
+              this.renderMessage(login.status)}
             <Mobile name="mobile" />
             <Captcha name="captcha" countdown={120} onGetCaptcha={this.onGetCaptcha} />
           </Tab>

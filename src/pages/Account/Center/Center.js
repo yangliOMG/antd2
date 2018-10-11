@@ -103,30 +103,30 @@ class Center extends PureComponent {
           </span>
         ),
       },
-      {
-        key: 'articles',
-        tab: (
-          <span>
-            文章 <span style={{ fontSize: 14 }}>(0)</span>
-          </span>
-        ),
-      },
-      {
-        key: 'applications',
-        tab: (
-          <span>
-            应用 <span style={{ fontSize: 14 }}>(0)</span>
-          </span>
-        ),
-      },
-      {
-        key: 'projects',
-        tab: (
-          <span>
-            项目 <span style={{ fontSize: 14 }}>(0)</span>
-          </span>
-        ),
-      },
+      // {
+      //   key: 'articles',
+      //   tab: (
+      //     <span>
+      //       文章 <span style={{ fontSize: 14 }}>(0)</span>
+      //     </span>
+      //   ),
+      // },
+      // {
+      //   key: 'applications',
+      //   tab: (
+      //     <span>
+      //       应用 <span style={{ fontSize: 14 }}>(0)</span>
+      //     </span>
+      //   ),
+      // },
+      // {
+      //   key: 'projects',
+      //   tab: (
+      //     <span>
+      //       项目 <span style={{ fontSize: 14 }}>(0)</span>
+      //     </span>
+      //   ),
+      // },
     ];
 
     return (

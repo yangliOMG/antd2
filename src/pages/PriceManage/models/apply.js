@@ -55,7 +55,10 @@ export default {
     changeApply(state, { payload }) {
       return {
         ...state,
-        applyList: state.applyList.filter(v=>v.id !== payload.id),
+        applyList: { 
+          lists: state.applyList.lists.filter(v=>v.id !== payload.id), 
+          pagination: state.applyList.pagination
+        },
       };
     },
     clear() {

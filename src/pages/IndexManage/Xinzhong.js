@@ -88,12 +88,7 @@ class Xinzhong extends Component {
             <Card
               loading={loading}
               bordered={false}
-              title={
-                <FormattedMessage
-                  id="app.manage.xinzhongList"
-                  defaultMessage="Believers List"
-                />
-              }
+              title='信众管理列表'
             >
               <Table
                 rowKey="id"
@@ -113,24 +108,15 @@ class Xinzhong extends Component {
               loading={loading}
               className={styles.xzCard}
               bordered={false}
-              title={
-                <FormattedMessage
-                  id="app.manage.the-proportion-of-xinzhong"
-                  defaultMessage="The Proportion of xinzhong"
-                />
-              }
+              title='信众类型占比'
               bodyStyle={{ padding: 24 }}
               style={{ minHeight: 509 }}
               extra={
                 <div className={styles.xzCardExtra}>
                   <div className={styles.xzTypeRadio}>
                     <Radio.Group value={xzType} onChange={this.handleChangeXzType}>
-                      <Radio.Button value="sex">
-                        <FormattedMessage id="app.manage.channel.sex" defaultMessage="Sex" />
-                      </Radio.Button>
-                      <Radio.Button value="addr">
-                        <FormattedMessage id="app.manage.channel.addr" defaultMessage="Addr" />
-                      </Radio.Button>
+                      <Radio.Button value="sex">性别</Radio.Button>
+                      <Radio.Button value="addr">地区</Radio.Button>
                     </Radio.Group>
                   </div>
                 </div>
@@ -138,7 +124,7 @@ class Xinzhong extends Component {
             >
               <Pie
                 hasLegend
-                subTitle={<FormattedMessage id="app.manage.xinzhong" defaultMessage="Believers" />}
+                subTitle='信众管理'
                 total={() => <span>{xzPieData.reduce((pre, now) => now.y + pre, 0)}人</span>}
                 data={xzPieData}
                 valueFormat={value => <span>{value}人</span>}

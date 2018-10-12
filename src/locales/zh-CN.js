@@ -11,13 +11,6 @@ export default {
   'menu.price.stepform.info': '表单填写',
   'menu.price.stepform.result': '完成',
   'menu.price.check': '调价审核',
-  
-  'app.manage.xinzhong': '信众管理',
-  'app.manage.xinzhongList': '信众管理列表',
-  'app.manage.the-proportion-of-xinzhong': '信众类型占比',
-  'app.manage.channel.sex': '性别',
-  'app.manage.channel.addr': '地区',
-
 
 
   'menu.dashboard': 'Dashboard',

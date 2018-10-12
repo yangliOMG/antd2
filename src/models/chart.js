@@ -18,7 +18,11 @@ export default {
 
   state: {
     visitData,
-    salesData:[] ,
+    salesData:{
+      monthly:[],
+      dayly:[],
+      daylyNum:[],
+    } ,
     loading: false,
   },
 
@@ -35,7 +39,11 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          salesData: response.map(v=>({...v,y:v.y/100})),
+          salesData: {
+            monthly: response.monthly.map(v=>({...v,y:v.y/100})),
+            dayly: response.dayly.map(v=>({...v,y:v.y/100})),
+            daylyNum: response.daylyNum,
+          },
         },
       });
     },
@@ -51,7 +59,7 @@ export default {
     clear() {
       return {
         visitData: [],
-        salesData: [],
+        salesData: {monthly:[],dayly:[],daylyNum:[],},
       };
     },
   },

@@ -60,46 +60,24 @@ class Gongde extends Component {
     const loading = propsLoding || stateLoading;
 
     const columns = [
-      {
-        title: '序号',
-        dataIndex: 'id',
-        key: 'id',
-        render: (text, record, index)  => index + 1 , 
-      },
-      {
-        title: '塔名',
-        dataIndex: 'name',
-      },
-      {
-        title: '已供灯数',
-        dataIndex: 'theCurrentLight',
-      },
-      {
-        title: '总灯数',
-        dataIndex: 'theSumLight',
-      },
+      {title: '序号',dataIndex: 'id',key: 'id',render: (text, record, index)  => index + 1 , },
+      {title: '塔名',dataIndex: 'name',},
+      {title: '已供灯数',dataIndex: 'theCurrentLight',},
+      {title: '总灯数',dataIndex: 'theSumLight',},
     ]
 
     const columns2 = [
-      {
-        title: '祈福人',
-        dataIndex: 'prayman',
-      },
-      {
-        title: '描述',
-        dataIndex: 'fname',
-        render: (text, record, index)  => `${text}供灯${record.num}盏` , 
-      },
-      {
-        title: '功德',
-        dataIndex: 'sum',
-        render: d => <Yuan>{d/100}</Yuan> , 
-      },
-      {
-        title: '时间',
-        dataIndex: 'payTime',
-        render: d => moment(d).format("YYYY-MM-DD") , 
-      },
+      {title: '祈福人',dataIndex: 'prayman',},
+      {title: '描述',dataIndex: 'fname',render: (text, record, index)  => `${text}供灯${record.num}盏` , },
+      {title: '功德',dataIndex: 'sum',render: d => <Yuan>{d/100}</Yuan> ,},
+      {title: '时间',dataIndex: 'payTime',render: d => moment(d).format("HH:mm") , },
+    ]
+
+    const columns3 = [
+      {title: '祈福人',dataIndex: 'prayman',},
+      {title: '描述',dataIndex: 'fname',render: (text, record, index)  => `${text}供灯${record.num}盏` , },
+      {title: '功德',dataIndex: 'sum',render: d => <Yuan>{d/100}</Yuan> ,},
+      {title: '时间',dataIndex: 'payTime',render: d => moment(d).format("YYYY-MM-DD HH:mm") , },
     ]
 
     const topColResponsiveProps = { xs: 24, sm: 12, md: 12, lg: 12, xl: 6, }
@@ -154,10 +132,11 @@ class Gongde extends Component {
               bordered={false}
               loading={loading}
               contentHeight={46}
+              title="累计供灯数"
               total={successLight}
-              footer={<div className={styles.describe}>累计供灯数</div>}
+              footer={<div className={styles.describe}>日供灯数</div>}
             >
-             <MiniArea color="#975FE4" data={visitData} />
+             <MiniArea color="#975FE4" data={salesData.daylyNum} />
             </ChartCard>
           </Col>
           <Col {...topColResponsiveProps}>
@@ -181,17 +160,22 @@ class Gongde extends Component {
           <Row gutter={24}>
             <Col xl={12}>
               <Tabs tabBarStyle={{ marginBottom: 0 }}>
-                <TabPane tab="总量" key="total">
+                <TabPane tab="图表" key="total">
                   <ChartCard
                     bordered={false}
                     loading={loading}
-                    contentHeight={46}
-                    footer={<div className={styles.describe}>今日功德</div>}
+                    contentHeight={150}
+                    title="今日功德"
+                    total={<div className={styles.contentred}><Yuan>{dayMoney/100}</Yuan></div>}
+                    footer={<div className={styles.describe}>最近10日功德量</div>}
                   >
-                    <div className={styles.contentred}><Yuan>{dayMoney/100}</Yuan></div>
+                    <Bar
+                      height={150}
+                      data={salesData.dayly}
+                    />
                   </ChartCard>
                 </TabPane>
-                <TabPane tab="详情" key="details">
+                <TabPane tab="今日详情" key="details">
                   <Table
                     rowKey={record => record.id}
                     size="small"
@@ -206,25 +190,26 @@ class Gongde extends Component {
             </Col>
             <Col xl={12}>
             <Tabs tabBarStyle={{ marginBottom: 0 }}>
-                <TabPane tab="总量" key="total">
+                <TabPane tab="图表" key="total">
                   <ChartCard
                     bordered={false}
                     loading={loading}
                     contentHeight={150}
-                    title={<div className={styles.contentred}><Yuan>{allMoney/100}</Yuan></div>}
-                    footer={<div className={styles.describe}>累计功德</div>}
+                    title="累计功德"
+                    total={<div className={styles.contentred}><Yuan>{allMoney/100}</Yuan></div>}
+                    footer={<div className={styles.describe}>月功德量</div>}
                   >
                     <Bar
                       height={150}
-                      data={salesData}
+                      data={salesData.monthly}
                     />
                   </ChartCard>
                 </TabPane>
-                <TabPane tab="详情" key="details">
+                <TabPane tab="详细数据" key="details">
                   <Table
                     rowKey={record => record.id}
                     size="small"
-                    columns={columns2}
+                    columns={columns3}
                     dataSource={allList}
                     pagination={{
                       pageSize: 5,

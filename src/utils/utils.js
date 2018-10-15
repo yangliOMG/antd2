@@ -2,6 +2,16 @@ import moment from 'moment';
 import React from 'react';
 import { parse, stringify } from 'qs';
 
+export function formatDateData(dateArr) {
+  const date = []
+  for (let i = 10; i > 0; i-=1) {
+    let key = moment(new Date( new Date().getTime() - 1000 * 60 * 60 * 24 * i)).format('MM月DD日')
+    let obj = dateArr.find(v=>v.x===key)
+    date.push({x:key,y:obj?obj.y:0})
+  }
+  return date
+}
+
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
 }

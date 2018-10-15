@@ -56,7 +56,7 @@ class Gongde extends Component {
     const { loading: propsLoding, } = this.state;
     const { gongde, chart, loading: stateLoading } = this.props;
     const { facilityList, allMoney, beliversSum, currentLight, dayMoney, lightSum, successLight, dayList, allList } = gongde;
-    const { visitData ,salesData } = chart;
+    const { salesData } = chart;
     const loading = propsLoding || stateLoading;
 
     const columns = [
@@ -134,7 +134,7 @@ class Gongde extends Component {
               contentHeight={46}
               title="累计供灯数"
               total={successLight}
-              footer={<div className={styles.describe}>日供灯数</div>}
+              footer={<div className={styles.describe}>最近10日供灯数</div>}
             >
              <MiniArea color="#975FE4" data={salesData.daylyNum} />
             </ChartCard>
@@ -144,10 +144,11 @@ class Gongde extends Component {
               bordered={false}
               loading={loading}
               contentHeight={46}
+              title="信众总数"
               total={beliversSum}
-              footer={<div className={styles.describe}>信众数</div>}
+              footer={<div className={styles.describe}>近10日新增信众数</div>}
             >
-              <MiniBar data={visitData} />
+              <MiniBar data={salesData.daylyMem} />
             </ChartCard>
           </Col>
         </Row>
@@ -158,19 +159,19 @@ class Gongde extends Component {
           bordered={false} 
         >
           <Row gutter={24}>
-            <Col xl={12}>
+            <Col xl={24}>
               <Tabs tabBarStyle={{ marginBottom: 0 }}>
                 <TabPane tab="图表" key="total">
                   <ChartCard
                     bordered={false}
                     loading={loading}
-                    contentHeight={150}
+                    contentHeight={200}
                     title="今日功德"
                     total={<div className={styles.contentred}><Yuan>{dayMoney/100}</Yuan></div>}
                     footer={<div className={styles.describe}>最近10日功德量</div>}
                   >
                     <Bar
-                      height={150}
+                      height={200}
                       data={salesData.dayly}
                     />
                   </ChartCard>
@@ -188,19 +189,19 @@ class Gongde extends Component {
                 </TabPane>
               </Tabs>
             </Col>
-            <Col xl={12}>
+            <Col xl={24}>
             <Tabs tabBarStyle={{ marginBottom: 0 }}>
                 <TabPane tab="图表" key="total">
                   <ChartCard
                     bordered={false}
                     loading={loading}
-                    contentHeight={150}
+                    contentHeight={200}
                     title="累计功德"
                     total={<div className={styles.contentred}><Yuan>{allMoney/100}</Yuan></div>}
                     footer={<div className={styles.describe}>月功德量</div>}
                   >
                     <Bar
-                      height={150}
+                      height={200}
                       data={salesData.monthly}
                     />
                   </ChartCard>
